@@ -1,0 +1,281 @@
+﻿@model GestionProduitChimiques.Models.Entities.MouvementStock
+@{
+    ViewData["title"] = "Gestion des Mouvements";
+}
+
+<div class="row">
+    <label title="Add New Produit" id="addproduit" class="btn btn-white  pull-right" onclick="showModelAddMouvement()">
+        <i class="ace-icon fa fa-plus"></i>
+        Add Mouvement
+    </label>
+    <div class="col-lg-12 ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-9">
+                        Historiques des Mouvements
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" id="search" placeholder="Search..." onclick="RechercheMouvement()">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="RechercheMouvement()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+
+                                <th>Date</th>
+                                <th>Type </th>
+                                <th>Raison</th>
+                                <th>Reference produit</th>
+                                <th>Nom-Prod</th>
+                                <!--<th>Purete</th>
+                                <th>Concentration</th>
+                                <th>Date de péremption</th>-->
+                                <th>Quantité</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in @ViewBag.ListMouvement)
+                            {
+                                <tr class="search">
+
+                                    <td>
+                                        @if (item.DateMouvement != null)
+                                        {
+                                            @item.DateMouvement.Date.ToString("dd/MM/yyyy")
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.TypeMvt
+                                    </td>
+                                    <td>
+                                        @item.Raison
+                                    </td>
+                                    <td>
+                                        @item.produit.Reference
+                                    </td>
+                                    <td>
+                                        @item.produit.Nom
+                                    </td>
+                                    <td>
+                                        @item.Quantite
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-2 tools action-buttons">
+                                                <a href="#" class="red" title="Delete Produit" id="idDeleteProduit" onclick="showModelDeleteMouvement(@item.Id)">
+                                                    <i class="ace-icon fa fa-trash-o bigger-140"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+</div>
+
+<!--Modal Add Mouvements-->
+
+
+<div class="modal fade" id="ModelAddmouvement" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog centmodel widthmodel">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form id="formmvt">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title text-center" id="myModalLabel">Add mouvement</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Type Mouvement</label>
+                                        <select class="form-control" id="typmouv">
+                                            <option>Entrant</option>
+                                            <option>Sortant</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="raison">Raison</label>
+                                        <input type="text" class="form-control" id="raison">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quantite">Quantite </label>
+                                        <input type="number" class="form-control" id="quantite">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="observation">Observation</label>
+                                        <input type="text" class="form-control" id="observation">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="DateMvt">Date</label>
+                                        <input type="date" class="form-control" id="DateMvt">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="lotId">Produit</label>
+                                        <select class="form-control chosen" id="typprod">
+                                            @foreach (var prod in ViewBag.ListProduits)
+                                            {
+                                                <option value="@prod.Id">@prod.Nom</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="concentration" id="labconcent">Concentration </label>
+                                        <input type="text" class="form-control" id="concentration">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateperemtion" id="labpremtion">Date de Peremption</label>
+                                        <input type="date" class="form-control" id="dateperemtion">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="purete" id="labPurete">Pureté</label>
+                                        <input type="text" class="form-control" id="purete">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="AddMouvement(formmvt)">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--Modal Delete Mouvement-->
+
+<div class="modal fade" id="ModalDeleteMouvement" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog centmodel widthmodel" role="document">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="modal-header" style="background-color:#478fca;padding:4px">
+                        <h4 class="modal-title text-center" style="color:white !important" id="exampleModalLongTitle">Delete Mouvements</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:22px;color:white !important;top:5px;right:20px;position:absolute;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <h3><i class="ace-icon fa fa-hand-o-right blue bigger-120"></i>Are you sure wanting to delete this ?</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn  btn-sm btn-default" onclick="hideModelDeleteMouvement()"><i class="ace-icon fa fa-times"></i>Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="DeleteMouvement()"><i class="ace-icon fa fa-check"></i>Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Update Mouvement
+
+<div class="modal fade" id="ModelUpdatemouvement" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog centmodel widthmodel">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form id="formmvtup">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title text-center" id="myModalLabel">Update mouvement</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Type Mouvement</label>
+                                        <select class="form-control" id="typmouv">
+                                            <option>Entrant</option>
+                                            <option>Sortant</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="raison">Raison</label>
+                                        <input type="text" class="form-control" id="raison">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quantite">Quantite </label>
+                                        <input type="number" class="form-control" id="quantite">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="observation">Observation</label>
+                                        <input type="text" class="form-control" id="observation">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="DateMvt">Date</label>
+                                        <input type="date" class="form-control" id="updatemouv">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="lotId">Produit</label>
+                                        <select class="form-control" id="typprod">
+                                            @foreach (var prod in ViewBag.ListProduits)
+                                            {
+                                                <option value="@prod.Id">@prod.Nom</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="concentration" id="labconcent">Concentration </label>
+                                        <input type="text" class="form-control" id="concentration">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateperemtion" id="labpremtion">Date de Peremption</label>
+                                        <input type="date" class="form-control" id="dateperemtion">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="purete" id="labPurete">Pureté</label>
+                                        <input type="text" class="form-control" id="purete">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="UpdateMouvement(formmvtup)">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->

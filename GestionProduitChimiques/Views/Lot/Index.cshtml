@@ -1,0 +1,271 @@
+﻿@model GestionProduitChimiques.Models.Entities.Lot
+@{
+    ViewData["title"] = "Liste des lots";
+}
+
+<div class="row">
+    <label title="Add New Lot" id="addproduit" class="btn btn-white  pull-right" onclick="showModelAddLott()">
+        <i class="ace-icon fa fa-plus"></i>
+        Add Lot
+    </label>
+    <div class="col-lg-12 ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-lg-9">
+                        Liste des Lots
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" id="search" placeholder="Search..." onclick="RechercheLot()">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="RechercheLot()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+
+                                <th>Code Produit</th>
+                                <th>Pureté</th>
+                                <th>Concentration </th>
+                                <th>Date de péremtion</th>
+                                <th>Stock</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in @ViewBag.ListLot)
+                            {
+                                <tr class="search">
+
+                                    <td>
+                                        @item.IdProduit
+                                    </td>
+                                    <td>
+                                        @item.Purete
+                                    </td>
+                                    <td>
+                                        @item.Concentration
+                                    </td>
+                                    <td>
+                                        @if (item.DatePeremption != null)
+                                        {
+                                            @item.DatePeremption.Date.ToString("dd/MM/yyyy")
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.Stock
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-2 tools action-buttons">
+                                                <a href="#" class="blue" title="Update Produit" id="idupdateProduit" onclick="showModelUpdatelot(@item.Id)">
+                                                    <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-2 tools action-buttons">
+                                                <a href="#" class="red" title="Delete Produit" id="idDeleteProduit" onclick="showModelDeleteLot(@item.Id)">
+                                                    <i class="ace-icon fa fa-trash-o bigger-140"></i>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-2 tools action-buttons">
+                                                <a href="#" class="red" title="Detail Produit" id="idDetailProduit" onclick="showModelDetailLot(@item.IdProduit)">
+                                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+</div>
+
+<div class="modal fade" id="ModelAddLot" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  ">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form id="formlot">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title text-center" id="myModalLabel">Add Lot</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="idproduit">Code Produit <font color="blue">*</font></label>
+                                        <input asp-for="IdProduit" class="form-control" id="idproduit" placeholder="Identifiant du produit">
+                                        @Html.ValidationMessageFor(model => model.IdProduit)
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="purete">Pureté</label>
+                                        <input asp-for="Purete" class="form-control" id="purete">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="concentration">Concentration </label>
+                                        <input asp-for="Concentration" class="form-control" id="concentration">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateperemtion">Date de Peremption</label>
+                                        <input type="date" class="form-control" id="dateperemtion">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="toxicite">Stock</label>
+                                        <input asp-for="Stock" class="form-control" id="stock">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="AddLot(formlot)">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--Modal Update Produit-->
+
+<div class="modal fade" id="ModelUpLot" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog  ">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form id="upformlot">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title text-center" id="myModalLabel">Update Lot</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="Purete">Pureté</label>
+                                        <input asp-for="Purete" class="form-control" id="uppurete">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Concentration">Concentration </label>
+                                        <input asp-for="Concentration" class="form-control" id="upconcentration">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="updateperemption">Date de Peremption</label>
+                                        <input type="date" class="form-control" id="updateperemption">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="toxicite">Stock</label>
+                                        <input asp-for="Stock" class="form-control" id="upstock">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="UpdateLot(upformlot)">Edit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--Modal Delete Lot-->
+
+<div class="modal fade" id="ModalDeleteLot" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog centmodel widthmodel" role="document">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="modal-header" style="background-color:#478fca;padding:4px">
+                        <h4 class="modal-title text-center" style="color:white !important" id="exampleModalLongTitle">Delete Lot</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:22px;color:white !important;top:5px;right:20px;position:absolute;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <h3><i class="ace-icon fa fa-hand-o-right blue bigger-120"></i>Are you sure wanting to delete this ?</h3>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn  btn-sm btn-default" onclick="hideModelDeleteLot()"><i class="ace-icon fa fa-times"></i>Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="DeleteLot()"><i class="ace-icon fa fa-check"></i>Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal Details Lots-->
+
+<div class="modal fade" id="ModalDetailLot" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="modal-header" style="background-color:#478fca;padding:4px">
+                        <h4 class="modal-title text-center" style="color:white !important" id="exampleModalLongTitle">Detail</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:22px;color:white !important;top:5px;right:20px;position:absolute;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row text-center">
+                                <label >Reference : </label>
+                                <label id="reference"></label>
+                        </div>
+                        <div class="row text-center">
+                            <label>Nom : </label>
+                            <label id="nom"></label>
+                        </div>
+                        <div class="row text-center">
+                            <label>Formule : </label>
+                            <label id="formule"></label>
+                        </div>
+                        <div class="row text-center">
+                            <label>CAS : </label>
+                            <label id="cas"></label>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn  btn-sm btn-default" onclick="hideModelDetailLot()"><i class="ace-icon fa fa-times"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
