@@ -74,7 +74,18 @@ namespace GestionProduitChimiques.Controllers
         {
             try
             {
-                BLL_Produit.Delete(Id);
+                Produit produit = BLL_Produit.GetProduit(Id);
+                if (produit.Perissable == 1)
+                {
+                    BLL_Produit.DeleteLot(Id);
+                    BLL_Produit.DeleteMouvement(Id);
+                    BLL_Produit.Delete(Id);
+                }
+                else
+                {
+                    BLL_Produit.DeleteMouvement(Id);
+                    BLL_Produit.Delete(Id);
+                }
                 return Json(new { success = true, message = "Suppression Effectuez" });
             }
             catch (Exception Ex)
@@ -97,6 +108,20 @@ namespace GestionProduitChimiques.Controllers
                 return Json(new { success = true, message = produit });
             }
             catch(Exception Ex)
+            {
+                return Json(new { success = false, message = Ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetEtatPhysique(int Id)
+        {
+            try
+            {
+                Produit produit = BLL_MouvementStock.GetProduit(Id);
+                return Json(new { success = true, type = produit.EtatPhysique });
+            }
+            catch (Exception Ex)
             {
                 return Json(new { success = false, message = Ex.Message });
             }

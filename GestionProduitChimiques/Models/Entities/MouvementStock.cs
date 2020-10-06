@@ -15,6 +15,7 @@ namespace GestionProduitChimiques.Models.Entities
         public int IdProduit { get; set; }
         public int Quantite { get; set; }
         public string Observation { get; set; }
+        public string UniteMesure { get; set; }
         public Produit produit { get; set; }
         public Lot lot { get; set; }
     }

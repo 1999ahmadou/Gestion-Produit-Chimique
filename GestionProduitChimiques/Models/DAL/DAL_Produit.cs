@@ -19,7 +19,7 @@ namespace GestionProduitChimiques.Models.DAL
             produit.Reference = dataRow["Reference"] == DBNull.Value ? null : (string)dataRow["Reference"];
             produit.Nom = dataRow["Nom"] == DBNull.Value ? null : (string)dataRow["Nom"];
             produit.Formule = dataRow["Formule"] == DBNull.Value ? null : (string)dataRow["Formule"];
-            produit.CAS = (int)dataRow["CAS"];
+            produit.CAS = dataRow["CAS"] == DBNull.Value ? null : (string)dataRow["CAS"];
             produit.Toxicite = dataRow["Toxicite"] == DBNull.Value ? null : (string)dataRow["Toxicite"];
             produit.EtatPhysique = dataRow["EtatPhysique"] == DBNull.Value ? null : (string)dataRow["EtatPhysique"];
             produit.UniteMesure = dataRow["UniteMesure"] == DBNull.Value ? null : (string)dataRow["UniteMesure"];
@@ -55,7 +55,7 @@ namespace GestionProduitChimiques.Models.DAL
                 command.Parameters.AddWithValue("@Reference", produit.Reference ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Nom", produit.Nom ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Formule", produit.Formule ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@CAS", produit.CAS);
+                command.Parameters.AddWithValue("@CAS", produit.CAS ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Toxicite", produit.Toxicite ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@EtatPhysique", produit.EtatPhysique ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@UniteMesure", produit.UniteMesure ?? (object)DBNull.Value);
@@ -80,7 +80,7 @@ namespace GestionProduitChimiques.Models.DAL
                 command.Parameters.AddWithValue("@Reference", produit.Reference ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Nom", produit.Nom ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Formule", produit.Formule ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@CAS", produit.CAS);
+                command.Parameters.AddWithValue("@CAS", produit.CAS ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Toxicite", produit.Toxicite ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@EtatPhysique", produit.EtatPhysique ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@UniteMessure", produit.UniteMesure ?? (object)DBNull.Value);
@@ -149,6 +149,30 @@ namespace GestionProduitChimiques.Models.DAL
                     return DAL_Lot.GetListFromDataTable(dt);
                 else
                     return null;
+            }
+        }
+
+        public static void DeleteMouvement(int EntityKey)
+        {
+            using (SqlConnection con = DbConnection.GetConnection())
+            {
+                string StrSQL = "DELETE FROM Mouvement WHERE IdProduit=@EntityKey";
+                SqlCommand command = new SqlCommand(StrSQL, con);
+                command.Parameters.AddWithValue("@EntityKey", EntityKey);
+                DataBaseAccessUtilities.NonQueryRequest(command);
+
+            }
+        }
+
+        public static void DeleteLot(int EntityKey)
+        {
+            using (SqlConnection con = DbConnection.GetConnection())
+            {
+                string StrSQL = "DELETE FROM Lot WHERE IdProduit=@EntityKey";
+                SqlCommand command = new SqlCommand(StrSQL, con);
+                command.Parameters.AddWithValue("@EntityKey", EntityKey);
+                DataBaseAccessUtilities.NonQueryRequest(command);
+
             }
         }
     }

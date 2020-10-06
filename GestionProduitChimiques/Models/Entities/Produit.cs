@@ -23,7 +23,7 @@ namespace GestionProduitChimiques.Models.Entities
         [Required]
         public string Formule { get; set; }
         [Required]
-        public int CAS { get; set; }
+        public string CAS { get; set; }
         public string Toxicite { get; set; }
         public string EtatPhysique { get; set; }
         public string UniteMesure { get; set; }

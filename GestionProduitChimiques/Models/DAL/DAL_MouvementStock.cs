@@ -21,6 +21,7 @@ namespace GestionProduitChimiques.Models.DAL
             mouvement.IdProduit = (int)dataRow["IdProduit"];
             mouvement.Quantite = (int)dataRow["Quantite"];
             mouvement.Observation = dataRow["Observations"] == DBNull.Value ? null : (string)dataRow["Observations"];
+            mouvement.UniteMesure = dataRow["UniteMesure"] == DBNull.Value ? null : (string)dataRow["UniteMesure"];
             mouvement.produit = DAL_Produit.SelectById(mouvement.IdProduit);        
             return mouvement;
         }
@@ -40,7 +41,7 @@ namespace GestionProduitChimiques.Models.DAL
         {
             using (SqlConnection con = DbConnection.GetConnection())
             {
-                string StrSQL = "INSERT INTO Mouvement (DateMvt, TypeMvt, Raison, IdProduit, Quantite, Observations ) VALUES (@DateMvt, @TypeMvt, @Raison, @IdProduit, @Quantite, @Observations )";
+                string StrSQL = "INSERT INTO Mouvement (DateMvt, TypeMvt, Raison, IdProduit, Quantite, Observations, UniteMesure ) VALUES (@DateMvt, @TypeMvt, @Raison, @IdProduit, @Quantite, @Observations, @UniteMesure )";
                 SqlCommand command = new SqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@DateMvt", mouvement.DateMouvement ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@TypeMvt", mouvement.TypeMvt?? (object)DBNull.Value);
@@ -48,6 +49,7 @@ namespace GestionProduitChimiques.Models.DAL
                 command.Parameters.AddWithValue("@IdProduit", mouvement.IdProduit);
                 command.Parameters.AddWithValue("@Quantite", mouvement.Quantite);
                 command.Parameters.AddWithValue("@Observations", mouvement.Observation ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@UniteMesure", mouvement.UniteMesure ?? (object)DBNull.Value);
                 DataBaseAccessUtilities.NonQueryRequest(command);
             }
         }
@@ -56,7 +58,7 @@ namespace GestionProduitChimiques.Models.DAL
         {
             using (SqlConnection con = DbConnection.GetConnection())
             {
-                string StrSQL = "UPDATE Mouvement SET  DateMvt= @DateMvt, TypeMvt=@TypeMvt, Raison= @Raison, Quantite= @Quantite, Observations=@Observations WHERE Id = @CurId";
+                string StrSQL = "UPDATE Mouvement SET  DateMvt= @DateMvt, TypeMvt=@TypeMvt, Raison= @Raison, Quantite= @Quantite, Observations=@Observations , UniteMesure=@UniteMesure WHERE Id = @CurId";
                 SqlCommand command = new SqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@CurId", id);
                 command.Parameters.AddWithValue("@DateMvt", mouvement.DateMouvement ?? (object)DBNull.Value);
@@ -64,6 +66,7 @@ namespace GestionProduitChimiques.Models.DAL
                 command.Parameters.AddWithValue("@Raison", mouvement.Raison ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Quantite", mouvement.Quantite);
                 command.Parameters.AddWithValue("@Observations", mouvement.Observation ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@UniteMesure", mouvement.UniteMesure ?? (object)DBNull.Value);
                 DataBaseAccessUtilities.NonQueryRequest(command);
             }
         }

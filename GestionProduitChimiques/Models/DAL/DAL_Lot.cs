@@ -142,7 +142,7 @@ namespace GestionProduitChimiques.Models.DAL
                         produit.Reference = (string)reader["Reference"];
                         produit.Nom = (string)reader["Nom"];
                         produit.Formule = (string)reader["Formule"];
-                        produit.CAS = (int)reader["CAS"];
+                        produit.CAS = (string)reader["CAS"];
                     }
                 }
                 return produit;

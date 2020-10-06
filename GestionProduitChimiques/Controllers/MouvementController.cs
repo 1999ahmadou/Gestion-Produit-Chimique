@@ -124,7 +124,7 @@ namespace GestionProduitChimiques.Controllers
             try
             {
                 Produit produit= BLL_MouvementStock.GetProduit(Id);
-                return Json(new { success = true,type = produit.Perissable });
+                return Json(new { success = true,type = produit.Perissable, etatphy=produit.EtatPhysique });
             }
             catch (Exception Ex)
             {
