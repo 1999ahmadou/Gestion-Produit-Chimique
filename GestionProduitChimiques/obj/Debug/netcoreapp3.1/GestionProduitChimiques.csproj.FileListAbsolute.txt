@@ -38,8 +38,6 @@ C:\Users\ahmad\source\repos\GestionProduitChimiques\GestionProduitChimiques\bin\
 C:\Users\ahmad\source\repos\GestionProduitChimiques\GestionProduitChimiques\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
 C:\Users\ahmad\source\repos\GestionProduitChimiques\GestionProduitChimiques\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\ahmad\source\repos\GestionProduitChimiques\GestionProduitChimiques\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\ahmad\source\repos\GestionProduitChimiques\GestionProduitChimiques\obj\Debug\netcoreapp3.1\GestionProduitChimiques.csproj.CoreCompileInputs.cache
-C:\Users\ahmad\source\repos\GestionProduitChimiques\GestionProduitChimiques\obj\Debug\netcoreapp3.1\GestionProduitChimiques.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\ahmad\source\repos\GestionProduitChimiques\GestionProduitChimiques\obj\Debug\netcoreapp3.1\Razor\Views\Lot\Index.cshtml.g.cs
 C:\Users\ahmad\source\repos\GestionProduitChimiques\GestionProduitChimiques\obj\Debug\netcoreapp3.1\Razor\Views\Mouvement\Index.cshtml.g.cs
 C:\Users\ahmad\source\repos\GestionProduitChimiques\GestionProduitChimiques\obj\Debug\netcoreapp3.1\GestionProduitChimiques.csprojAssemblyReference.cache

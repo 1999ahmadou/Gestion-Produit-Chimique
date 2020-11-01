@@ -1,5 +1,16 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿fieldset.scheduler-border {
+    border: 1px groove #ddd !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 2em 0.8em 2em !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+}
+
+legend.scheduler-border {
+    font-size: 1.2em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+}
 
 a.navbar-brand {
   white-space: normal;
@@ -90,7 +101,28 @@ body {
     width: 5%
 }
 
-.centlog {
-    top: 50% !important;
-    transform: translateY(-55%) !important;
+.centmodAddPro {
+    top: 40% !important;
+    transform: translateY(-36%) !important;
+}
+
+.centmodUpPro {
+    top: 40% !important;
+    transform: translateY(-37%) !important;
+}
+
+.MiseFormeTypeMvt {
+    margin-left: 0.7em;
+}
+.MiseFormeDMvt {
+    margin-right: 6em;
+}
+
+.centmodelAddMvt {
+    top: 32% !important;
+    transform: translateY(-35%) !important;
+}
+
+.widthmodeladdmvt {
+    width: 45%
 }

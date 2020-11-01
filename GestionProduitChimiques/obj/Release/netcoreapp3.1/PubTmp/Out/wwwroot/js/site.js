@@ -1,12 +1,72 @@
 ﻿//Add Produit
 function showModelAddProduit() {
-  $("#ModelAddProduit").modal("show");
+    $("#ModelAddProduit").modal("show");
+
 }
 function hideModelAddProduit() {
     $("#ModelAddProduit").modal("hide");
 }
 
+$("#etatPhysique").change(function () {
+    let rep = $("#etatPhysique option:selected").val()
+
+    if (rep == "Solide") {
+        $('#uniteMesure option[value=mg]').show();
+        $('#uniteMesure option[value=kg]').show();
+        $('#uniteMesure option[value=g]').show();
+
+        $('#uniteMesure option[value=ml]').hide();
+        $('#uniteMesure option[value=cl]').hide();
+        $('#uniteMesure option[value=l]').hide();
+        $('#uniteMesure option[value=m3]').hide();
+    }
+    else if (rep == "Liquide") {
+        $('#uniteMesure option[value=ml]').show();
+        $('#uniteMesure option[value=cl]').show();
+        $('#uniteMesure option[value=l]').show();
+
+        $('#uniteMesure option[value=mg]').hide();
+        $('#uniteMesure option[value=kg]').hide();
+        $('#uniteMesure option[value=g]').hide();
+        $('#uniteMesure option[value=m3]').hide();
+
+    }
+    else
+    {
+         $('#uniteMesure option[value=m3]').show();
+
+        $('#uniteMesure option[value=ml]').hide();
+        $('#uniteMesure option[value=cl]').hide();
+        $('#uniteMesure option[value=l]').hide();
+        $('#uniteMesure option[value=mg]').hide();
+        $('#uniteMesure option[value=kg]').hide();
+        $('#uniteMesure option[value=g]').hide();
+    }
+});
+
 function AddProduit() {
+    var selectPerri = $("#perrr").change(function () {
+        var rep = $("#perrr option:selected");
+        return rep;
+    });
+
+    var selectToxi = $("#toxicite").change(function () {
+        var rep = $("#toxicite option:selected");
+        return rep;
+    });
+    var selectEtatPhys = $("#etatPhysique").change(function () {
+        var rep = $("#etatPhysique option:selected");
+        return rep;
+    });
+    var selectTypeGes = $("#typeGestion").change(function () {
+        var rep = $("#typeGestion option:selected");
+        return rep;
+    });
+    var selectUnitMes = $("#uniteMesure").change(function () {
+        var rep = $("#uniteMesure option:selected");
+        return rep;
+    });
+
     class Produit {
         Reference;
         Nom;
@@ -27,23 +87,23 @@ function AddProduit() {
             this.Nom = $("#nom").val();
             this.Formule = $("#formule").val();
             this.CAS = $("#cas").val();
-            this.Toxicite = $("#toxicite").val();
-            this.EtatPhysique = $("#etatPhysique").val();
-            this.UniteMesure = $("#uniteMesure").val();
+            this.Toxicite = selectToxi.val();
+            this.EtatPhysique = selectEtatPhys.val();
+            this.UniteMesure = selectUnitMes.val();
 
-            var valeur;
+           /* var valeur;
             if (document.getElementById('optionsRadiosInline1').checked) {
                 valeur = 1;
             }
 
             else {
                 valeur = 0;
-            }
-            this.Perissable = valeur;
+            }*/
+            this.Perissable = selectPerri.val();
             this.TempMinStockage = $("#tempMinStockage").val();
             this.TempMaxStockage = $("#tempMaxStockage").val();
             this.ConditionStockage = $("#conditionStockage").val();
-            this.TypeGestion = $("#typeGestion").val();
+            this.TypeGestion = selectTypeGes.val();
             this.StockMin = $("#stockMin").val();
             this.Stock = $("#stock").val();
         }
@@ -125,7 +185,7 @@ function showModelUpdateProduit(Id) {
             $("#uptoxicite").val(result.toxicite);
             $("#upetatPhysique").val(result.etatPhysique);
             $("#upuniteMesure").val(result.uniteMesure);
-            $("#upperissable").val(result.perissable);
+            $("#upperrr").val(result.perissable);
             $("#uptempMinStockage").val(result.tempMinStockage);
             $("#uptempMaxStockage").val(result.tempMaxStockage);
             $("#upconditionStockage").val(result.conditionStockage);
@@ -144,7 +204,66 @@ function hideModelUpdateProduit() {
     $("#ModelUpdateProduit").modal("hide");
 }
 
+$("#upetatPhysique").change(function () {
+    let rep = $("#upetatPhysique option:selected").val()
+
+    if (rep == "Solide") {
+        $('#upuniteMesure option[value=mg]').show();
+        $('#upuniteMesure option[value=kg]').show();
+        $('#upuniteMesure option[value=g]').show();
+
+        $('#upuniteMesure option[value=ml]').hide();
+        $('#upuniteMesure option[value=cl]').hide();
+        $('#upuniteMesure option[value=l]').hide();
+        $('#upuniteMesure option[value=m3]').hide();
+    }
+    else if (rep == "Liquide") {
+        $('#upuniteMesure option[value=ml]').show();
+        $('#upuniteMesure option[value=cl]').show();
+        $('#upuniteMesure option[value=l]').show();
+
+        $('#upuniteMesure option[value=mg]').hide();
+        $('#upuniteMesure option[value=kg]').hide();
+        $('#upuniteMesure option[value=g]').hide();
+        $('#upuniteMesure option[value=m3]').hide();
+
+    }
+    else {
+        $('#upuniteMesure option[value=m3]').show();
+
+        $('#upuniteMesure option[value=ml]').hide();
+        $('#upuniteMesure option[value=cl]').hide();
+        $('#upuniteMesure option[value=l]').hide();
+        $('#upuniteMesure option[value=mg]').hide();
+        $('#upuniteMesure option[value=kg]').hide();
+        $('#upuniteMesure option[value=g]').hide();
+    }
+});
+
 function UpdateProduit() {
+
+    var selectPerri = $("#upperrr").change(function () {
+        var rep = $("#upperrr option:selected");
+        return rep;
+    });
+
+    var selectToxi = $("#uptoxicite").change(function () {
+        var rep = $("#uptoxicite option:selected");
+        return rep;
+    });
+    var selectEtatPhys = $("#upetatPhysique").change(function () {
+        var rep = $("#upetatPhysique option:selected");
+        return rep;
+    });
+    var selectTypeGes = $("#uptypeGestion").change(function () {
+        var rep = $("#uptypeGestion option:selected");
+        return rep;
+    });
+    var selectUnitMes = $("#upuniteMesure").change(function () {
+        var rep = $("#upuniteMesure option:selected");
+        return rep;
+    });
+
     class Produit {
         Reference;
         Nom;
@@ -165,21 +284,14 @@ function UpdateProduit() {
             this.Nom = $("#upnom").val();
             this.Formule = $("#upformule").val();
             this.CAS = $("#upcas").val();
-            this.Toxicite = $("#uptoxicite").val();
-            this.EtatPhysique = $("#upetatPhysique").val();
-            this.UniteMesure = $("#upuniteMesure").val();
-            var valeur;
-            if (document.getElementById('optionsRadiosInline1').checked) {
-                valeur = 1;
-            }
-            else {
-                valeur = 0;
-            }
-            this.Perissable = valeur;
+            this.Toxicite = selectToxi.val();
+            this.EtatPhysique = selectEtatPhys.val();
+            this.UniteMesure = selectUnitMes.val();
+            this.Perissable = selectPerri.val();
             this.TempMinStockage = $("#uptempMinStockage").val();
             this.TempMaxStockage = $("#uptempMaxStockage").val();
             this.ConditionStockage = $("#upconditionStockage").val();
-            this.TypeGestion = $("#uptypeGestion").val();
+            this.TypeGestion = selectTypeGes.val();
             this.StockMin = $("#upstockMin").val();
             this.Stock = $("#upstock").val();
         }
@@ -512,7 +624,6 @@ $("#typprod").change(function () {
     let rep = $("#typprod option:selected").val()
     $.post("/Mouvement/GetProduit", { Id: rep }, function (result) {
 
-
         if (result.type == 1) {
             $("#labPurete").show();
             $("#purete").show();
@@ -532,7 +643,20 @@ $("#typprod").change(function () {
 
             $("#concentration").hide();
             $("#labconcent").hide();
-        }    
+        }  
+
+        if (result.etatphy == "Solide") {
+            $("#unitemvt option").remove();
+            $("#unitemvt").append("<option value='mg'>mg</option><option value='g'>g</option><option value='kg'>kg</option> ")
+        }
+         if (result.etatphy == "Liquide") {
+            $("#unitemvt option").remove();
+            $("#unitemvt").append("<option value='l'>l</option><option value='ml'>ml</option><option value='cl'>cl</option> ")
+        }
+        if (result.etatphy == "Gazeux") {
+            $("#unitemvt option").remove();
+            $("#unitemvt").append("<option value='m3'>m3</option> ")
+        }
     });
 });
 
@@ -548,6 +672,17 @@ function AddMouvement() {
         var rep = $("#typprod option:selected");
         return rep;
     });
+
+    var selectRaison = $("#raison").change(function () {
+        var rep = $("#raison option:selected");
+        return rep;
+    });
+
+    var selectUnitmvt = $("#unitemvt").change(function () {
+        var rep = $("#unitemvt option:selected");
+        return rep;
+    });
+
     class Mouvement {
         TypeMvt;
         Raison;
@@ -555,6 +690,7 @@ function AddMouvement() {
         Quantite;
         Observation;
         DateMouvement;
+        UniteMesure;
         constructor() {
             this.TypeMvt = selectMvt.val();
             this.Raison = $("#raison").val();
@@ -562,6 +698,7 @@ function AddMouvement() {
             this.Quantite = $("#quantite").val();
             this.Observation = $("#observation").val();
             this.DateMouvement = $("#DateMvt").val();
+            this.UniteMesure = selectUnitmvt.val();
         }
     }
 
@@ -668,71 +805,6 @@ function DeleteMouvement() {
     }
 }
 
-/* Update Mouvement
-
-function showModelUpdateMouvement(id) {
-    if (id != null && id != undefined) {
-        $.get("/Mouvement/GetMouvement", { id: id }, function (result) {
-            $("#updatemouv").val(result.dateMouvement.substr(0,10));
-            $("#TypeMvt").val(result.typeMvt);
-            $("#upraison").val(result.raison);
-            $("#upquantite").val(result.quantite);
-            $("#upobservation").val(result.observation);
-            sessionStorage.setItem("idMouvement", id);
-            $("#ModelUpdatemouvement").modal("show");
-        })
-    }
-    else {
-        alertify.error("Cannot Show this Mouvement");
-    }
-}
-function hideModelUpdateMouvement() {
-    $("#ModelUpdatemouvement").modal("hide");
-}
-
-function UpdateMouvement() {
-    class Mouvementstock {
-        DateMouvement;
-        IdRespMvt;
-        TypeMvt;
-        Raison;
-        Quantite;
-        Observation;
-        constructor() {
-            this.IdRespMvt = $("#IdRespMvt").val();
-            this.DateMouvement = $("#updatemouv").val();
-            this.TypeMvt = $("#TypeMvt").val();
-            this.Raison = $("#upraison").val();
-            this.Quantite = $("#upquantite").val();
-            this.Observation = $("#upobservation").val();
-        }
-    }
-    $.validator.unobtrusive.parse($("#formmvtup"));
-    if ($(formmvtup).valid()) {
-        if (sessionStorage.getItem("idMouvement") != 0 && sessionStorage.getItem("idMouvement") != undefined) {
-            var Id = sessionStorage.getItem("idMouvement");
-            $.post("/Mouvement/UpdateMouvement", { Id: Id, mouv: new Mouvementstock() }, function (result) {
-                if (result.success) {
-                    hideModelUpdateMouvement();
-                    alertify.success(result.message);
-                    setTimeout(function () { location.reload(); }, 1000);
-                }
-                else {
-                    hideModelUpdateMouvement();
-                    alertify.error(result.message);
-                }
-            });
-        }
-        else {
-            alertify.error("Cannot update this Mouvement");
-        }
-
-    }
-    else {
-        return false;
-    }
-
-}*/
 
 // Recherche Mouvement
 function RechercheMouvement() {

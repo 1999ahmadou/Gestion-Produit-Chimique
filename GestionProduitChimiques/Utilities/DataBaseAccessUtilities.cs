@@ -4,12 +4,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace GestionProduitChimiques.Utilities
 {
     public class DataBaseAccessUtilities
     {
-        public static int NonQueryRequest(SqlCommand MyCommand)
+        public static int NonQueryRequest(MySqlCommand MyCommand)
         {
             try
             {
@@ -17,14 +18,14 @@ namespace GestionProduitChimiques.Utilities
                 {
                     MyCommand.Connection.Open();
                 }
-                catch (SqlException e)
+                catch (MySqlException e)
                 {
                     throw new Exception("Database Connection Error", e);
                 }
 
                 return MyCommand.ExecuteNonQuery();
             }
-            catch (SqlException e)
+            catch (MySqlException e)
             {
                 throw new Exception("DataBase Connection Error", e);
             }
@@ -34,7 +35,7 @@ namespace GestionProduitChimiques.Utilities
             }
 
         }
-        public static int NonQueryRequest(string StrRequest, SqlConnection MyConnection)
+        public static int NonQueryRequest(string StrRequest, MySqlConnection MyConnection)
         {
             try
             {
@@ -42,15 +43,15 @@ namespace GestionProduitChimiques.Utilities
                 {
                     MyConnection.Open();
                 }
-                catch (SqlException e)
+                catch (MySqlException e)
                 {
                     throw new Exception("DataBase Connection Error", e);
                 }
 
-                SqlCommand MyCommand = new SqlCommand(StrRequest, MyConnection);
+                MySqlCommand MyCommand = new MySqlCommand(StrRequest, MyConnection);
                 return MyCommand.ExecuteNonQuery();
             }
-            catch (SqlException e)
+            catch (MySqlException e)
             {
                 throw new Exception("Query Execution Error", e);
             }
@@ -61,7 +62,7 @@ namespace GestionProduitChimiques.Utilities
 
         }
 
-        public static object ScalarRequest(SqlCommand MyCommand)
+        public static object ScalarRequest(MySqlCommand MyCommand)
         {
             try
             {
@@ -69,14 +70,14 @@ namespace GestionProduitChimiques.Utilities
                 {
                     MyCommand.Connection.Open();
                 }
-                catch (SqlException e)
+                catch (MySqlException e)
                 {
                     throw new Exception("Database Connection Error", e);
                 }
 
                 return MyCommand.ExecuteScalar();
             }
-            catch (SqlException e)
+            catch (MySqlException e)
             {
                 throw new Exception("Query Execution Error", e);
             }
@@ -85,7 +86,7 @@ namespace GestionProduitChimiques.Utilities
                 MyCommand.Connection.Close();
             }
         }
-        public static object ScalarRequest(string StrRequest, SqlConnection MyConnection)
+        public static object ScalarRequest(string StrRequest, MySqlConnection MyConnection)
         {
             try
             {
@@ -93,15 +94,15 @@ namespace GestionProduitChimiques.Utilities
                 {
                     MyConnection.Open();
                 }
-                catch (SqlException e)
+                catch (MySqlException e)
                 {
                     throw new Exception("Database Connection Error", e);
                 }
-                SqlCommand MyCommand = new SqlCommand(StrRequest, MyConnection);
+                MySqlCommand MyCommand = new MySqlCommand(StrRequest, MyConnection);
 
                 return MyCommand.ExecuteScalar();
             }
-            catch (SqlException e)
+            catch (MySqlException e)
             {
                 throw new Exception("Query Execution Error", e);
             }
@@ -112,17 +113,17 @@ namespace GestionProduitChimiques.Utilities
         }
 
 
-        public static DataTable SelectRequest(SqlCommand MyCommand)
+        public static DataTable SelectRequest(MySqlCommand MyCommand)
         {
             try
             {
                 DataTable Table;
-                SqlDataAdapter SelectAdapter = new SqlDataAdapter(MyCommand);
+                MySqlDataAdapter SelectAdapter = new MySqlDataAdapter(MyCommand);
                 Table = new DataTable();
                 SelectAdapter.Fill(Table);
                 return Table;
             }
-            catch (SqlException e)
+            catch (MySqlException e)
             {
                 throw new Exception("Query Execution Error", e);
             }
@@ -131,18 +132,18 @@ namespace GestionProduitChimiques.Utilities
                 MyCommand.Connection.Close();
             }
         }
-        public static DataTable SelectRequest(string StrSelectRequest, SqlConnection MyConnection)
+        public static DataTable SelectRequest(string StrSelectRequest, MySqlConnection MyConnection)
         {
             try
             {
                 DataTable Table;
-                SqlCommand SelectCommand = new SqlCommand(StrSelectRequest, MyConnection);
-                SqlDataAdapter SelectAdapter = new SqlDataAdapter(SelectCommand);
+                MySqlCommand SelectCommand = new MySqlCommand(StrSelectRequest, MyConnection);
+                MySqlDataAdapter SelectAdapter = new MySqlDataAdapter(SelectCommand);
                 Table = new DataTable();
                 SelectAdapter.Fill(Table);
                 return Table;
             }
-            catch (SqlException e)
+            catch (MySqlException e)
             {
 
                 throw new Exception("Query Execution Error", e);
@@ -154,29 +155,29 @@ namespace GestionProduitChimiques.Utilities
         }
 
 
-        public static void ShowRequest(SqlCommand Cmd)
+        public static void ShowRequest(MySqlCommand Cmd)
         {
             String ListPar = "\t\t****Texte de la Requete****\n";
             ListPar += Cmd.CommandText + "\n";
             ListPar += "\t\t****Liste des parmêtres : ****\n";
-            foreach (SqlParameter Param in Cmd.Parameters)
+            foreach (MySqlParameter Param in Cmd.Parameters)
             {
                 ListPar += Param.ParameterName + "\t:\t\"" + Param.Value.ToString() + "\"\t:\t" + Param.DbType.ToString() + "\n";
             }
         }
 
-        public static bool CheckFieldValueExistence(string TableName, string FieldName, SqlDbType FieldType, object FieldValue, SqlConnection MyConnection)
+        public static bool CheckFieldValueExistence(string TableName, string FieldName, MySqlDbType FieldType, object FieldValue, MySqlConnection MyConnection)
         {
             try
             {
                 string StrRequest = "SELECT COUNT(" + FieldName + ") FROM " + TableName + " WHERE ((" + FieldName + " = @" + FieldName + ")";
                 StrRequest += "OR ( (@" + (FieldName + 1).ToString() + " IS NULL)AND (" + FieldName + " IS NULL)))";
-                SqlCommand Command = new SqlCommand(StrRequest, MyConnection);
+                MySqlCommand Command = new MySqlCommand(StrRequest, MyConnection);
                 Command.Parameters.Add("@" + FieldName, FieldType).Value = FieldValue;
                 Command.Parameters.Add("@" + FieldName + 1, FieldType).Value = FieldValue;
                 return ((int)DataBaseAccessUtilities.ScalarRequest(Command) != 0);
             }
-            catch (SqlException e)
+            catch (MySqlException e)
             {
                 throw new Exception("Field Value Existence Check Failed", e);
             }
@@ -187,17 +188,17 @@ namespace GestionProduitChimiques.Utilities
 
         }
 
-        public static object GetMaxFieldValue(SqlConnection MyConnection, string TableName, string FieldName)
+        public static object GetMaxFieldValue(MySqlConnection MyConnection, string TableName, string FieldName)
         {
             try
             {
                 string StrMaxRequest = "SELECT MAX(" + FieldName + ") FROM " + TableName;
 
-                SqlCommand Command = new SqlCommand(StrMaxRequest, MyConnection);
+                MySqlCommand Command = new MySqlCommand(StrMaxRequest, MyConnection);
                 return (DataBaseAccessUtilities.ScalarRequest(Command));
 
             }
-            catch (SqlException e)
+            catch (MySqlException e)
             {
                 throw new Exception("Query Execution Error", e);
             }
