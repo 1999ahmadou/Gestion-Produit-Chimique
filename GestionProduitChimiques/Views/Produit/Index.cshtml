@@ -4,13 +4,13 @@
 }
 
 <div class="row">
-    <label title="Add New Produit" id="addproduit" class="btn btn-white  pull-right" onclick="showModelAddProduit()">
+    <label title="Add New Produit" id="addproduit" class="btn btn-white  pull-right miseEnformetable" onclick="showModelAddProduit()">
         <br />
         <i class="ace-icon fa fa-plus"></i>
         Ajouter
     </label>
     <div class="col-lg-12 ">
-        <div class="panel panel-default">
+        <div class="panel panel-default miseEnformetable">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-lg-9">
@@ -32,11 +32,9 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover">
+                    <table class="table table-striped table-bordered table-hover ">
                         <thead>
                             <tr>
-
-                                <th>Reference</th>
                                 <th>Nom </th>
                                 <th>Formule</th>
                                 <th>CAS</th>
@@ -50,10 +48,6 @@
                             {
 
                                 <tr class="search">
-
-                                    <td>
-                                        @item.Reference
-                                    </td>
                                     <td>
                                         @item.Nom
                                     </td>
@@ -126,37 +120,34 @@
                         <div class="modal-body">
                             <div class="row">
                                 <fieldset class="scheduler-border">
-                                    <legend class="scheduler-border">Identification du Produit</legend>
-                                    <div class="col-lg-6">
+                                    <legend class="scheduler-border colorlegende">Identification du Produit</legend>
+                                    <div class="col-lg-12">
                                         <div class="form-group">
                                             <label for="nom">Nom <font color="blue">*</font></label>
                                             <input type="text" class="form-control" id="nom" name="nom" data-val="true" data-val-required="Le Nom est obligatoire">
                                             @Html.ValidationMessage("nom")
                                         </div>
-                                        <div class="form-group">
-                                            <label for="formule">Formule <font color="blue">*</font></label>
-                                            <input type="text" class="form-control" id="formule" name="formule" data-val="true" data-val-required="La Formule est obligatoire">
-                                            @Html.ValidationMessage("formule")
-                                        </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="reference">Reference <font color="blue">*</font></label>
-                                            <input type="text" class="form-control" id="reference" name="reference" data-val="true" data-val-required="La Reference est obligatoire">
-                                            @Html.ValidationMessage("reference")
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="formule">Formule <font color="blue">*</font></label>
+                                                <input type="text" class="form-control" id="formule" name="formule" data-val="true" data-val-required="La Formule est obligatoire">
+                                                @Html.ValidationMessage("formule")
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="cas">CAS <font color="blue">*</font></label>
-                                            <input type="text" class="form-control" id="cas" name="cas" data-val="true" data-val-required="Le CAS est obligatoire">
-                                            @Html.ValidationMessage("cas")
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="cas">CAS <font color="blue">*</font></label>
+                                                <input type="text" class="form-control" id="cas" name="cas" data-val="true" data-val-required="Le CAS est obligatoire">
+                                                @Html.ValidationMessage("cas")
+                                            </div>
                                         </div>
-                                    </div>
                                 </fieldset>
                             </div>
                             <div class="row">
                                 <fieldset class="scheduler-border">
-                                    <legend class="scheduler-border">Proprieté du Produit</legend>
-                                    <div class="col-lg-6">
+                                    <legend class="scheduler-border colorlegende">Proprieté du Produit</legend>
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="etatPhysique">Etat Physique</label>
                                             <select autocomplete="on" class="form-control" id="etatPhysique">
@@ -165,6 +156,8 @@
                                                 <option value="Gazeux">Gazeux</option>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="toxicite">Toxicite</label>
                                             <select class="form-control" id="toxicite">
@@ -173,19 +166,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="uniteMesure">Unite Mesure</label>
-                                            <select class="form-control" id="uniteMesure">
-                                                <option value="mg">mg</option>
-                                                <option value="g">g</option>
-                                                <option value="kg">kg</option>
-                                                <option value="ml">ml</option>
-                                                <option value="l">l</option>
-                                                <option value="cl">cl</option>
-                                                <option value="m3">m3</option>
-                                            </select>
-                                        </div>
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <label>Perissable</label>
                                             <select class="form-control" id="perrr">
@@ -198,7 +179,7 @@
                             </div>
                             <div class="row">
                                 <fieldset class="scheduler-border">
-                                    <legend class="scheduler-border">Stockage</legend>
+                                    <legend class="scheduler-border colorlegende">Stockage</legend>
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="typeGestion">Type de Gestion</label>
@@ -213,21 +194,21 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="stockMin">Stock Minimum</label>
-                                            <input type="text" class="form-control" id="stockMin" />
+                                            <input asp-for="StockMin" class="form-control" id="stockMin" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="tempMaxStockage">Temperature Maximum Stockage</label>
-                                            <input type="text" class="form-control" id="tempMaxStockage">
-                                        </div>
                                         <div class="form-group">
                                             <label for="conditionStockage">Condition de Stockage</label>
                                             <input type="text" class="form-control" id="conditionStockage">
                                         </div>
                                         <div class="form-group">
+                                            <label for="tempMaxStockage">Temperature Maximum Stockage</label>
+                                            <input type="text" class="form-control" id="tempMaxStockage">
+                                        </div>
+                                        <div class="form-group">
                                             <label for="stock">Stock</label>
-                                            <input type="text" class="form-control" id="stock">
+                                            <input asp-for="Stock" class="form-control" id="stock">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -261,13 +242,15 @@
                         </div>
                         <div class="row">
                             <fieldset class="scheduler-border">
-                                <legend class="scheduler-border">Identification du Produit</legend>
-                                <div class="col-lg-6">
+                                <legend class="scheduler-border colorlegende">Identification du Produit</legend>
+                                <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="nom">Nom <font color="blue">*</font></label>
                                         <input type="text" class="form-control" id="upnom" name="upnom" data-val="true" data-val-required="Le Nom est obligatoire">
                                         @Html.ValidationMessage("upnom")
                                     </div>
+                                </div>
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="formule">Formule <font color="blue">*</font></label>
                                         <input type="text" class="form-control" id="upformule" name="upformule" data-val="true" data-val-required="La Formule est obligatoire">
@@ -275,11 +258,6 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="reference">Reference <font color="blue">*</font></label>
-                                        <input type="text" class="form-control" id="upreference" name="upreference" data-val="true" data-val-required="La Reference est obligatoire">
-                                        @Html.ValidationMessage("upreference")
-                                    </div>
                                     <div class="form-group">
                                         <label for="cas">CAS <font color="blue">*</font></label>
                                         <input type="text" class="form-control" id="upcas" name="upcas" data-val="true" data-val-required="Le CAS est obligatoire">
@@ -289,9 +267,9 @@
                             </fieldset>
                         </div>
                         <div class="row">
-                            <fieldset class="scheduler-border">
-                                <legend class="scheduler-border">Proprieté du Produit</legend>
-                                <div class="col-lg-6">
+                            <fieldset class="scheduler-border ">
+                                <legend class="scheduler-border colorlegende">Proprieté du Produit</legend>
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="etatPhysique">Etat Physique</label>
                                         <select class="form-control" id="upetatPhysique">
@@ -300,6 +278,8 @@
                                             <option value="Gazeux">Gazeux</option>
                                         </select>
                                     </div>
+                                </div>
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="toxicite">Toxicite</label>
                                         <select class="form-control" id="uptoxicite">
@@ -308,19 +288,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="uniteMesure">Unite Mesure</label>
-                                        <select class="form-control" id="upuniteMesure">
-                                            <option value="mg">mg</option>
-                                            <option value="g">g</option>
-                                            <option value="kg">kg</option>
-                                            <option value="ml">ml</option>
-                                            <option value="l">l</option>
-                                            <option value="cl">cl</option>
-                                            <option value="m3">m3</option>
-                                        </select>
-                                    </div>
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>Perissable</label>
                                         <select class="form-control" id="upperrr">
@@ -333,7 +301,7 @@
                         </div>
                         <div class="row">
                             <fieldset class="scheduler-border">
-                                <legend class="scheduler-border">Stockage</legend>
+                                <legend class="scheduler-border colorlegende">Stockage</legend>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="typeGestion">Type de Gestion</label>
@@ -353,12 +321,12 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="uptempMaxStockage">Temperature Maximum Stockage</label>
-                                        <input type="text" class="form-control" id="uptempMaxStockage">
-                                    </div>
-                                    <div class="form-group">
                                         <label for="upconditionStockage">Condition de Stockage</label>
                                         <input type="text" class="form-control" id="upconditionStockage">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="uptempMaxStockage">Temperature Maximum Stockage</label>
+                                        <input type="text" class="form-control" id="uptempMaxStockage">
                                     </div>
                                     <div class="form-group">
                                         <label for="upstock">Stock</label>
@@ -380,105 +348,6 @@
     <!-- /.modal-dialog -->
 </div>
 
-<!-- <div class="modal fade" id="ModelUpdateProduit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog  centmodel widthmodel">
-        <div class="modal-content">
-            <div class="row">
-                <div class="col-lg-12">
-                    <form id="upform">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title text-center" id="myModalLabel">Modifier un Produit</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="upreference">Reference <font color="blue">*</font></label>
-                                        <input asp-for="Reference" class="form-control" id="upreference">
-                                        @Html.ValidationMessageFor(model => model.Reference)
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="upnom">Nom <font color="blue">*</font></label>
-                                        <input asp-for="Nom" class="form-control" id="upnom" placeholder="Enterer le Name">
-                                        @Html.ValidationMessageFor(model => model.Nom)
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="upformule">Formule <font color="blue">*</font></label>
-                                        <input type="text" class="form-control" id="upformule" name="formule" data-val="true" data-val-required="La Formule set Obligatoire">
-                                        @Html.ValidationMessage("formule")
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="upcas">CAS <font color="blue">*</font></label>
-                                        <input asp-for="CAS" class="form-control" id="upcas" placeholder="Enterer le CAS">
-                                        @Html.ValidationMessageFor(model => model.CAS)
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="uptoxicite">Toxicite</label>
-                                        <input asp-for="Toxicite" class="form-control" id="uptoxicite">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="upetatPhysique">Etat Physique</label>
-                                        <input type="text" class="form-control" id="upetatPhysique">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="upetatPhysique">Stock Gloabal</label>
-                                        <input asp-for="Stock" class="form-control" id="upstock">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="upuniteMesure">Unite Mesure</label>
-                                        <input type="text" class="form-control" id="upuniteMesure" placeholder="Enterer l'Unit de Mesure">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="uptempMinStockage">Temps Minimum Stockage</label>
-                                        <input asp-for="TempMinStockage" class="form-control" id="uptempMinStockage" placeholder="Enterer le Temperature Mininum de Stockage">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="uptempMaxStockage">Temps Maximum Stockage</label>
-                                        <input asp-for="TempMaxStockage" class="form-control" id="uptempMaxStockage" placeholder="Enterer le Temperature Maximum de Stockage">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="upconditionStockage">Condition de Stockage</label>
-                                        <input type="text" class="form-control" id="upconditionStockage" placeholder="Enterer la condition de stockage ">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="uptypeGestion">Type de Gestion</label>
-                                        <input type="text" class="form-control" id="uptypeGestion" placeholder="Enterer le Type Gestion ">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="upstockMin">Stock Minimum</label>
-                                        <input type="number" class="form-control" id="upstockMin" placeholder="Enterer le Stock Minimum">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Perissable</label>
-                                        <label>  </label>
-                                        <label>  </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optionsRadiosInline" id="upoptionsRadiosInline1" value="option1" checked>Oui
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" name="optionsRadiosInline" id="upoptionsRadiosInline2" value="option2">Non
-                                        </label>
-                                    </div>
-                                     <div class="form-group">
-                                       <label>Fiche de sécurité du produit </label>
-                                        <input type="file" id="upfichier">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary" onclick="UpdateProduit(upform)">Edit</button>
-</div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
 
 <!--Modal Delete Produit-->
 
@@ -532,9 +401,6 @@
                             <div class="col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <label>Ref : </label>
-                                        <label id="referencepl"></label>
-                                        <label>&emsp;</label>
                                         <label>Produit :  </label>
                                         <label id="produitpl"></label>
                                         <label>&emsp;</label>

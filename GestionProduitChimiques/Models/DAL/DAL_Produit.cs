@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GestionProduitChimiques.Models.BLL;
 using GestionProduitChimiques.Models.Entities;
 using GestionProduitChimiques.Utilities;
+using MySql.Data.MySqlClient;
 
 namespace GestionProduitChimiques.Models.DAL
 {
@@ -16,13 +17,11 @@ namespace GestionProduitChimiques.Models.DAL
         {
             Produit produit = new Produit();
             produit.Id = (int)dataRow["Id"];
-            produit.Reference = dataRow["Reference"] == DBNull.Value ? null : (string)dataRow["Reference"];
             produit.Nom = dataRow["Nom"] == DBNull.Value ? null : (string)dataRow["Nom"];
             produit.Formule = dataRow["Formule"] == DBNull.Value ? null : (string)dataRow["Formule"];
             produit.CAS = dataRow["CAS"] == DBNull.Value ? null : (string)dataRow["CAS"];
             produit.Toxicite = dataRow["Toxicite"] == DBNull.Value ? null : (string)dataRow["Toxicite"];
             produit.EtatPhysique = dataRow["EtatPhysique"] == DBNull.Value ? null : (string)dataRow["EtatPhysique"];
-            produit.UniteMesure = dataRow["UniteMesure"] == DBNull.Value ? null : (string)dataRow["UniteMesure"];
             produit.Perissable = Convert.ToByte(dataRow["Perissable"]);
             produit.TempMinStockage = (int)(dataRow["TempMinStockage"]);
             produit.TempMaxStockage = (int)(dataRow["TempMaxStockage"]);
@@ -47,18 +46,16 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static void Add(Produit produit)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
-                string StrSQL = "INSERT INTO Produit (Reference, Nom, Formule, CAS,Toxicite,EtatPhysique,UniteMesure,Perissable,TempMinStockage,TempMaxStockage,ConditionStockage,TypeGestion,StockMin,Stock)" +
-                    " VALUES (@Reference, @Nom, @Formule, @CAS,@Toxicite,@EtatPhysique,@UniteMesure,@Perissable,@TempMinStockage,@TempMaxStockage,@ConditionStockage,@TypeGestion,@StockMin,@Stock)";
-                SqlCommand command = new SqlCommand(StrSQL, con);
-                command.Parameters.AddWithValue("@Reference", produit.Reference ?? (object)DBNull.Value);
+                string StrSQL = "INSERT INTO Produit (Nom, Formule, CAS,Toxicite,EtatPhysique,Perissable,TempMinStockage,TempMaxStockage,ConditionStockage,TypeGestion,StockMin,Stock)" +
+                    " VALUES (@Nom, @Formule, @CAS,@Toxicite,@EtatPhysique,@Perissable,@TempMinStockage,@TempMaxStockage,@ConditionStockage,@TypeGestion,@StockMin,@Stock)";
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@Nom", produit.Nom ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Formule", produit.Formule ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@CAS", produit.CAS ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Toxicite", produit.Toxicite ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@EtatPhysique", produit.EtatPhysique ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@UniteMesure", produit.UniteMesure ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Perissable", produit.Perissable);
                 command.Parameters.AddWithValue("@TempMinStockage", produit.TempMinStockage);
                 command.Parameters.AddWithValue("@TempMaxStockage", produit.TempMaxStockage);
@@ -72,18 +69,16 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static void Update(int id, Produit produit)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
-                string StrSQL = "UPDATE Produit SET Reference= @Reference, Nom= @Nom, Formule= @Formule, CAS= @CAS,Toxicite= @Toxicite,EtatPhysique= @EtatPhysique, UniteMesure= @UniteMessure, Perissable= @Perissable,TempMinStockage= @TempMinStockage,TempMaxStockage= @TempMaxStockage, ConditionStockage= @ConditionStockage, TypeGestion= @TypeGestion, StockMin= @StockMin, Stock= @Stock WHERE Id = @CurId";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                string StrSQL = "UPDATE Produit SET Nom= @Nom, Formule= @Formule, CAS= @CAS,Toxicite= @Toxicite,EtatPhysique= @EtatPhysique, Perissable= @Perissable,TempMinStockage= @TempMinStockage,TempMaxStockage= @TempMaxStockage, ConditionStockage= @ConditionStockage, TypeGestion= @TypeGestion, StockMin= @StockMin, Stock= @Stock WHERE Id = @CurId";
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@CurId", id);
-                command.Parameters.AddWithValue("@Reference", produit.Reference ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Nom", produit.Nom ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Formule", produit.Formule ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@CAS", produit.CAS ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Toxicite", produit.Toxicite ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@EtatPhysique", produit.EtatPhysique ?? (object)DBNull.Value);
-                command.Parameters.AddWithValue("@UniteMessure", produit.UniteMesure ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Perissable", produit.Perissable);
                 command.Parameters.AddWithValue("@TempMinStockage", produit.TempMinStockage);
                 command.Parameters.AddWithValue("@TempMaxStockage", produit.TempMaxStockage);
@@ -97,10 +92,10 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static void Delete(int EntityKey)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 string StrSQL = "DELETE FROM Produit WHERE Id=@EntityKey";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@EntityKey", EntityKey);
                 DataBaseAccessUtilities.NonQueryRequest(command);
 
@@ -109,11 +104,11 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static Produit SelectById(int EntityKey)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 con.Open();
                 string StrSQL = "SELECT * FROM Produit WHERE Id = @EntityKey";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@EntityKey", EntityKey);
                 DataTable dt = DataBaseAccessUtilities.SelectRequest(command);
                 if (dt != null && dt.Rows.Count != 0)
@@ -126,11 +121,11 @@ namespace GestionProduitChimiques.Models.DAL
         public static List<Produit> SelectAll()
         {
             DataTable dataTable;
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 con.Open();
                 string StrSQL = "SELECT * FROM Produit";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 dataTable = DataBaseAccessUtilities.SelectRequest(command);
             }
             return GetListFromDataTable(dataTable);
@@ -138,11 +133,11 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static List<Lot> GetAllLotOfProduit(int EntityKey)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 con.Open();
                 string StrSQL = "SELECT * FROM Lot WHERE IdProduit = @EntityKey";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@EntityKey", EntityKey);
                 DataTable dt = DataBaseAccessUtilities.SelectRequest(command);
                 if (dt != null && dt.Rows.Count != 0)
@@ -154,10 +149,10 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static void DeleteMouvement(int EntityKey)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 string StrSQL = "DELETE FROM Mouvement WHERE IdProduit=@EntityKey";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@EntityKey", EntityKey);
                 DataBaseAccessUtilities.NonQueryRequest(command);
 
@@ -166,10 +161,10 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static void DeleteLot(int EntityKey)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 string StrSQL = "DELETE FROM Lot WHERE IdProduit=@EntityKey";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@EntityKey", EntityKey);
                 DataBaseAccessUtilities.NonQueryRequest(command);
 

@@ -20,7 +20,7 @@ namespace GestionProduitChimiques.Controllers
         {
             this.hostingEnvironment = hostingEnvironment; // Microsoft Dependency injection by Controller
         }
-        public IActionResult Index(int id)
+        public IActionResult Index()
         {
             List<Produit> produits = BLL_Produit.GetAll();
             List<Lot> meslots = BLL_Lot.GetAll();

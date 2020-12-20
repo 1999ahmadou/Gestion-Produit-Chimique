@@ -10,13 +10,15 @@ namespace GestionProduitChimiques.Models.DAL
     public class DbConnection
     {
 
-        static string connectionString = "Data Source=SQL5057.site4now.net;Initial Catalog=DB_A681FA_bkagnome;User Id=DB_A681FA_bkagnome_admin;Password=Bi!PDgmder52hC*";
-        public static SqlConnection GetConnection()
+       // static string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=GPCDB";
+        static string connectionString = "Server=localhost;Database=mygpc;Uid=root;Pwd=1ngenieur.c0m;";
+
+        public static MySqlConnection GetConnection()
         {
-            SqlConnection cn = null;
+            MySqlConnection cn = null;
             try
             {
-                cn = new SqlConnection(connectionString);
+                cn = new MySqlConnection(connectionString);
             }
             catch (Exception ex)
             {

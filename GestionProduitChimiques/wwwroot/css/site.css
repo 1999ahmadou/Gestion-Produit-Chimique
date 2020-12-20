@@ -94,7 +94,7 @@ body {
 }
 
 .widthmodel {
-    width: 60%
+    width: 55%
 }
 
 .widthlog {
@@ -102,8 +102,9 @@ body {
 }
 
 .centmodAddPro {
-    top: 40% !important;
+    top: 38% !important;
     transform: translateY(-36%) !important;
+
 }
 
 .centmodUpPro {
@@ -125,4 +126,15 @@ body {
 
 .widthmodeladdmvt {
     width: 45%
+}
+
+.miseEnformeMenu{
+    font-size:20px;
+}
+.miseEnformetable{
+    font-size:17px;
+}
+
+.colorlegende {
+    color: blue;
 }

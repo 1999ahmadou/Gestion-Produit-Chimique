@@ -19,6 +19,20 @@ namespace GestionProduitChimiques.Controllers
             return View();
         }
 
+        public IActionResult MvtEntrant()
+        {
+            ViewBag.ListProduits = BLL_Produit.GetAll();
+            ViewBag.ListMouvement = BLL_MouvementStock.GetAllEntrant("Entrant");
+            return View("MouvementEntrant");
+        }
+
+        public IActionResult MvtSortant()
+        {
+            ViewBag.ListProduits = BLL_Produit.GetAll();
+            ViewBag.ListMouvement = BLL_MouvementStock.GetAllSortant("Sortant");
+            return View("MouvementSortant");
+        }
+
         [HttpPost]
         public JsonResult AddMouvement(MouvementStock mouvement,Lot lot)
         {

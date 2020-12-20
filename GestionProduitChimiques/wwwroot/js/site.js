@@ -1,69 +1,28 @@
 ﻿//Add Produit
 function showModelAddProduit() {
     $("#ModelAddProduit").modal("show");
-
 }
 function hideModelAddProduit() {
     $("#ModelAddProduit").modal("hide");
 }
 
-$("#etatPhysique").change(function () {
-    let rep = $("#etatPhysique option:selected").val()
-
-    if (rep == "Solide") {
-        $('#uniteMesure option[value=mg]').show();
-        $('#uniteMesure option[value=kg]').show();
-        $('#uniteMesure option[value=g]').show();
-
-        $('#uniteMesure option[value=ml]').hide();
-        $('#uniteMesure option[value=cl]').hide();
-        $('#uniteMesure option[value=l]').hide();
-        $('#uniteMesure option[value=m3]').hide();
-    }
-    else if (rep == "Liquide") {
-        $('#uniteMesure option[value=ml]').show();
-        $('#uniteMesure option[value=cl]').show();
-        $('#uniteMesure option[value=l]').show();
-
-        $('#uniteMesure option[value=mg]').hide();
-        $('#uniteMesure option[value=kg]').hide();
-        $('#uniteMesure option[value=g]').hide();
-        $('#uniteMesure option[value=m3]').hide();
-
-    }
-    else
-    {
-         $('#uniteMesure option[value=m3]').show();
-
-        $('#uniteMesure option[value=ml]').hide();
-        $('#uniteMesure option[value=cl]').hide();
-        $('#uniteMesure option[value=l]').hide();
-        $('#uniteMesure option[value=mg]').hide();
-        $('#uniteMesure option[value=kg]').hide();
-        $('#uniteMesure option[value=g]').hide();
-    }
-});
 
 function AddProduit() {
-    var selectPerri = $("#perrr").change(function () {
-        var rep = $("#perrr option:selected");
+    let selectPerri = $("#perrr").change(function () {
+        let rep = $("#perrr option:selected");
         return rep;
     });
 
-    var selectToxi = $("#toxicite").change(function () {
-        var rep = $("#toxicite option:selected");
+    let selectToxi = $("#toxicite").change(function () {
+        let rep = $("#toxicite option:selected");
         return rep;
     });
-    var selectEtatPhys = $("#etatPhysique").change(function () {
-        var rep = $("#etatPhysique option:selected");
+    let selectEtatPhys = $("#etatPhysique").change(function () {
+        let rep = $("#etatPhysique option:selected");
         return rep;
     });
-    var selectTypeGes = $("#typeGestion").change(function () {
-        var rep = $("#typeGestion option:selected");
-        return rep;
-    });
-    var selectUnitMes = $("#uniteMesure").change(function () {
-        var rep = $("#uniteMesure option:selected");
+    let selectTypeGes = $("#typeGestion").change(function () {
+        let rep = $("#typeGestion option:selected");
         return rep;
     });
 
@@ -74,7 +33,6 @@ function AddProduit() {
         CAS;
         Toxicite;
         EtatPhysique;
-        UniteMesure;
         Perissable;
         TempMinStockage;
         TempMaxStockage;
@@ -89,8 +47,6 @@ function AddProduit() {
             this.CAS = $("#cas").val();
             this.Toxicite = selectToxi.val();
             this.EtatPhysique = selectEtatPhys.val();
-            this.UniteMesure = selectUnitMes.val();
-
            /* var valeur;
             if (document.getElementById('optionsRadiosInline1').checked) {
                 valeur = 1;
@@ -184,7 +140,6 @@ function showModelUpdateProduit(Id) {
             $("#upcas").val(result.cas);
             $("#uptoxicite").val(result.toxicite);
             $("#upetatPhysique").val(result.etatPhysique);
-            $("#upuniteMesure").val(result.uniteMesure);
             $("#upperrr").val(result.perissable);
             $("#uptempMinStockage").val(result.tempMinStockage);
             $("#uptempMaxStockage").val(result.tempMaxStockage);
@@ -204,63 +159,27 @@ function hideModelUpdateProduit() {
     $("#ModelUpdateProduit").modal("hide");
 }
 
-$("#upetatPhysique").change(function () {
-    let rep = $("#upetatPhysique option:selected").val()
-
-    if (rep == "Solide") {
-        $('#upuniteMesure option[value=mg]').show();
-        $('#upuniteMesure option[value=kg]').show();
-        $('#upuniteMesure option[value=g]').show();
-
-        $('#upuniteMesure option[value=ml]').hide();
-        $('#upuniteMesure option[value=cl]').hide();
-        $('#upuniteMesure option[value=l]').hide();
-        $('#upuniteMesure option[value=m3]').hide();
-    }
-    else if (rep == "Liquide") {
-        $('#upuniteMesure option[value=ml]').show();
-        $('#upuniteMesure option[value=cl]').show();
-        $('#upuniteMesure option[value=l]').show();
-
-        $('#upuniteMesure option[value=mg]').hide();
-        $('#upuniteMesure option[value=kg]').hide();
-        $('#upuniteMesure option[value=g]').hide();
-        $('#upuniteMesure option[value=m3]').hide();
-
-    }
-    else {
-        $('#upuniteMesure option[value=m3]').show();
-
-        $('#upuniteMesure option[value=ml]').hide();
-        $('#upuniteMesure option[value=cl]').hide();
-        $('#upuniteMesure option[value=l]').hide();
-        $('#upuniteMesure option[value=mg]').hide();
-        $('#upuniteMesure option[value=kg]').hide();
-        $('#upuniteMesure option[value=g]').hide();
-    }
-});
-
 function UpdateProduit() {
 
-    var selectPerri = $("#upperrr").change(function () {
-        var rep = $("#upperrr option:selected");
+    let selectPerri = $("#upperrr").change(function () {
+        let rep = $("#upperrr option:selected");
         return rep;
     });
 
-    var selectToxi = $("#uptoxicite").change(function () {
-        var rep = $("#uptoxicite option:selected");
+    let selectToxi = $("#uptoxicite").change(function () {
+        let rep = $("#uptoxicite option:selected");
         return rep;
     });
-    var selectEtatPhys = $("#upetatPhysique").change(function () {
-        var rep = $("#upetatPhysique option:selected");
+    let selectEtatPhys = $("#upetatPhysique").change(function () {
+        let rep = $("#upetatPhysique option:selected");
         return rep;
     });
-    var selectTypeGes = $("#uptypeGestion").change(function () {
-        var rep = $("#uptypeGestion option:selected");
+    let selectTypeGes = $("#uptypeGestion").change(function () {
+        let rep = $("#uptypeGestion option:selected");
         return rep;
     });
-    var selectUnitMes = $("#upuniteMesure").change(function () {
-        var rep = $("#upuniteMesure option:selected");
+    let selectUnitMes = $("#upuniteMesure").change(function () {
+        let rep = $("#upuniteMesure option:selected");
         return rep;
     });
 
@@ -271,7 +190,6 @@ function UpdateProduit() {
         CAS;
         Toxicite;
         EtatPhysique;
-        UniteMesure;
         Perissable;
         TempMinStockage;
         TempMaxStockage;
@@ -286,7 +204,6 @@ function UpdateProduit() {
             this.CAS = $("#upcas").val();
             this.Toxicite = selectToxi.val();
             this.EtatPhysique = selectEtatPhys.val();
-            this.UniteMesure = selectUnitMes.val();
             this.Perissable = selectPerri.val();
             this.TempMinStockage = $("#uptempMinStockage").val();
             this.TempMaxStockage = $("#uptempMaxStockage").val();
@@ -387,7 +304,6 @@ function showModelDetailProduit(Id) {
     if (Id != null && Id != undefined) {
         $.get("/Produit/GetProduitAndLot", { Id: Id }, function (result) {
            // alert(result.message.lots);
-            $("#referencepl").text(result.message.reference);
             $("#produitpl").text(result.message.nom);
             $("#formulepl").text(result.message.formule);
             $("#caspl").text(result.message.cas);
@@ -607,18 +523,78 @@ function showModelDetailLot(id) {
 /*                                        Gestion Mouvement                        */
 
 //Add Mouvements
+
+{
+    var date = new Date();
+    var jour = String(date.getDate()).padStart(2, '0');
+    var mois = date.getMonth() + 1;
+    var annee = date.getFullYear();
+    var datePatern = jour + '/' + mois + '/' + annee;
+    $("#DateMvt").val(datePatern);
+}
+
 function showModelAddMouvement() {
+
+    let rep = $("#typprod option:selected").val()
+    $.post("/Mouvement/GetProduit", { Id: rep }, function (result) {
+
+        if (result.type == 1) {
+            $("#labPurete").show();
+            $("#purete").show();
+
+            $("#dateperemtion").show();
+            $("#labpremtion").show();
+
+            $("#concentration").show();
+            $("#labconcent").show();
+        }
+        else {
+            $("#purete").hide();
+            $("#labPurete").hide();
+
+            $("#dateperemtion").hide();
+            $("#labpremtion").hide();
+
+            $("#concentration").hide();
+            $("#labconcent").hide();
+        }
+
+        if (result.etatphy == "Solide") {
+            $("#unitemvt option").remove();
+            $("#unitemvt").append("<option value='mg'>mg</option><option value='g'>g</option><option value='kg'>kg</option> ")
+        }
+        if (result.etatphy == "Liquide") {
+            $("#unitemvt option").remove();
+            $("#unitemvt").append("<option value='l'>l</option><option value='ml'>ml</option><option value='cl'>cl</option> ")
+        }
+        if (result.etatphy == "Gazeux") {
+            $("#unitemvt option").remove();
+            $("#unitemvt").append("<option value='m3'>m3</option> ")
+        }
+    });
+
     $("#ModelAddmouvement").modal("show");
 }
+
+function AddMouvementENtrant() {
+    showModelAddMouvement();
+    $("#typmouv option").remove();
+    $("#typmouv").append("<option value='Entrant'>Entrant</option>")
+}
+
+
+function AddMouvementSortant() {
+    
+    showModelAddMouvement();
+    $("#typmouv option").remove();
+    $("#typmouv").append("<option value='Sortant'>Sortant</option>")
+}
+
 function hideModelAddMouvement() {
     $("#ModelAddmouvement").modal("hide");
 
 }
 
-//var selectProd = $("#typprod").change(function () {
-//    var rep = $("#typprod option:selected");
-//    return rep;
-//});
 
 $("#typprod").change(function () {
     let rep = $("#typprod option:selected").val()
@@ -655,7 +631,7 @@ $("#typprod").change(function () {
         }
         if (result.etatphy == "Gazeux") {
             $("#unitemvt option").remove();
-            $("#unitemvt").append("<option value='m3'>m3</option> ")
+            $("#unitemvt").append("<option value='m3'>m3</option>")
         }
     });
 });

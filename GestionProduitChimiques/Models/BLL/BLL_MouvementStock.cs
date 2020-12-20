@@ -38,6 +38,16 @@ namespace GestionProduitChimiques.Models.BLL
             return DAL_MouvementStock.SelectAll();
         }
 
+        public static List<MouvementStock> GetAllEntrant(string typemvt)
+        {
+            return DAL_MouvementStock.SelectAllEntrant(typemvt);
+        }
+
+        public static List<MouvementStock> GetAllSortant(string typemvt)
+        {
+            return DAL_MouvementStock.SelectAllSortant(typemvt);
+        }
+
         public static void UpdateStockProduit(int EntityKey,int Stock)
         {
             DAL_MouvementStock.UpdateStockProduit(EntityKey,Stock);

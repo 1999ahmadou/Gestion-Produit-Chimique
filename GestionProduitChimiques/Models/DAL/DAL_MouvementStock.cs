@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace GestionProduitChimiques.Models.DAL
 {
@@ -39,10 +40,10 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static void Add(MouvementStock mouvement)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 string StrSQL = "INSERT INTO Mouvement (DateMvt, TypeMvt, Raison, IdProduit, Quantite, Observations, UniteMesure ) VALUES (@DateMvt, @TypeMvt, @Raison, @IdProduit, @Quantite, @Observations, @UniteMesure )";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@DateMvt", mouvement.DateMouvement ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@TypeMvt", mouvement.TypeMvt?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Raison", mouvement.Raison?? (object)DBNull.Value);
@@ -56,10 +57,10 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static void Update(int id, MouvementStock mouvement)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 string StrSQL = "UPDATE Mouvement SET  DateMvt= @DateMvt, TypeMvt=@TypeMvt, Raison= @Raison, Quantite= @Quantite, Observations=@Observations , UniteMesure=@UniteMesure WHERE Id = @CurId";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@CurId", id);
                 command.Parameters.AddWithValue("@DateMvt", mouvement.DateMouvement ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@TypeMvt", mouvement.TypeMvt ?? (object)DBNull.Value);
@@ -73,10 +74,10 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static void Delete(int EntityKey)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 string StrSQL = "DELETE FROM Mouvement WHERE Id=@EntityKey";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@EntityKey", EntityKey);
                 DataBaseAccessUtilities.NonQueryRequest(command);
 
@@ -85,11 +86,11 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static MouvementStock SelectById(int EntityKey)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 con.Open();
                 string StrSQL = "SELECT * FROM Mouvement WHERE Id = @EntityKey";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@EntityKey", EntityKey);
                 DataTable dt = DataBaseAccessUtilities.SelectRequest(command);
                 if (dt != null && dt.Rows.Count != 0)
@@ -102,11 +103,39 @@ namespace GestionProduitChimiques.Models.DAL
         public static List<MouvementStock> SelectAll()
         {
             DataTable dataTable;
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 con.Open();
                 string StrSQL = "SELECT * FROM Mouvement";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
+                dataTable = DataBaseAccessUtilities.SelectRequest(command);
+            }
+            return GetListFromDataTable(dataTable);
+        }
+
+        public static List<MouvementStock> SelectAllEntrant(string typemvt)
+        {
+            DataTable dataTable;
+            using (MySqlConnection con = DbConnection.GetConnection())
+            {
+                con.Open();
+                string StrSQL = "SELECT * FROM Mouvement where TypeMvt=@Entrant";
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
+                command.Parameters.AddWithValue("@Entrant", typemvt);
+                dataTable = DataBaseAccessUtilities.SelectRequest(command);
+            }
+            return GetListFromDataTable(dataTable);
+        }
+
+        public static List<MouvementStock> SelectAllSortant(string typemvt)
+        {
+            DataTable dataTable;
+            using (MySqlConnection con = DbConnection.GetConnection())
+            {
+                con.Open();
+                string StrSQL = "SELECT * FROM Mouvement where TypeMvt=@Sortant";
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
+                command.Parameters.AddWithValue("@Sortant", typemvt);
                 dataTable = DataBaseAccessUtilities.SelectRequest(command);
             }
             return GetListFromDataTable(dataTable);
@@ -114,10 +143,10 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static void UpdateStockProduit(int EntityKey,int stock)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 string StrSQL = "UPDATE Produit SET Stock=@Stock where Id=@CurId";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@Stock",stock);
                 command.Parameters.AddWithValue("@CurId", EntityKey);
                 DataBaseAccessUtilities.NonQueryRequest(command);
@@ -126,10 +155,10 @@ namespace GestionProduitChimiques.Models.DAL
 
         public static void UpdateStockLot(int EntityKey, int stock)
         {
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 string StrSQL = "UPDATE Lot SET Stock=@Stock where Id=@CurId";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@Stock", stock);
                 command.Parameters.AddWithValue("@CurId", EntityKey);
                 DataBaseAccessUtilities.NonQueryRequest(command);
@@ -138,13 +167,13 @@ namespace GestionProduitChimiques.Models.DAL
         public static Lot VerifIfLotExiste(int EntityKey)
         {
             Lot lot = new Lot();
-            using (SqlConnection con = DbConnection.GetConnection())
+            using (MySqlConnection con = DbConnection.GetConnection())
             {
                 con.Open();
                 string StrSQL = "SELECT * FROM Lot WHERE IdProduit = @EntityKey";
-                SqlCommand command = new SqlCommand(StrSQL, con);
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@EntityKey", EntityKey);
-                SqlDataReader dr = command.ExecuteReader();
+                MySqlDataReader dr = command.ExecuteReader();
                 if (dr != null)
                 {
                     while (dr.Read())
