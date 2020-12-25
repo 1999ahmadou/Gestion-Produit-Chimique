@@ -39,12 +39,12 @@
                                 <th>Date</th>
                                 <th>Type </th>
                                 <th>Raison</th>
-                                <th>Nom-Prod</th>
+                                <th>Nom du Prodruit</th>
                                 <!--<th>Purete</th>
                                 <th>Concentration</th>
                                 <th>Date de péremption</th>-->
                                 <th>Quantité</th>
-                                <th>Action</th>
+                                <!---<th>Action</th>-->
                             </tr>
                         </thead>
                         <tbody>
@@ -70,7 +70,7 @@
                                     <td>
                                         @item.Quantite
                                     </td>
-                                    <td>
+                                    <!----<td>
                                         <div class="row">
                                             <div class="col-md-2 tools action-buttons">
                                                 <a href="#" class="red" title="Delete Produit" id="idDeleteProduit" onclick="showModelDeleteMouvement(@item.Id)">
@@ -78,7 +78,7 @@
                                                 </a>
                                             </div>
                                         </div>
-                                    </td>
+                                    </td>-->
                                 </tr>
                             }
                         </tbody>
@@ -119,7 +119,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="DateMvt" class="MiseFormeDMvt">Date</label>
-                                        <input type="date" class="form-control MiseFormeDMvt" id="DateMvt">
+                                        <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control MiseFormeDMvt" id="DateMvt">
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="dateperemtion" id="labpremtion">Date Peremption</label>
-                                            <input type="date" class="form-control" id="dateperemtion">
+                                            <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" id="dateperemtion">
                                         </div>
                                     </div>
                                 </fieldset>

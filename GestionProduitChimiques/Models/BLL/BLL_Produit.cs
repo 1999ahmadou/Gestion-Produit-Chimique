@@ -30,7 +30,7 @@ namespace GestionProduitChimiques.Models.BLL
 
         public static void DeleteLot(int pId)
         {
-            DAL_Produit.DeleteMouvement(pId);
+            DAL_Produit.DeleteLot(pId);
         }
         public static Produit GetProduit(int id)
         {

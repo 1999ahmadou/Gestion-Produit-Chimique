@@ -524,14 +524,6 @@ function showModelDetailLot(id) {
 
 //Add Mouvements
 
-{
-    var date = new Date();
-    var jour = String(date.getDate()).padStart(2, '0');
-    var mois = date.getMonth() + 1;
-    var annee = date.getFullYear();
-    var datePatern = jour + '/' + mois + '/' + annee;
-    $("#DateMvt").val(datePatern);
-}
 
 function showModelAddMouvement() {
 

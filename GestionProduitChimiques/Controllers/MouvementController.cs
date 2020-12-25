@@ -85,9 +85,16 @@ namespace GestionProduitChimiques.Controllers
                     }
                     else
                     {
-                        BLL_MouvementStock.Add(mouvement);
-                        BLL_MouvementStock.UpdateStockProduit(mouvement.IdProduit,produit.Stock- mouvement.Quantite);
-                        return Json(new { success = true, message = "Ajout Effectuez" });
+                        if (produit.Stock >= mouvement.Quantite)
+                        {
+                            BLL_MouvementStock.Add(mouvement);
+                            BLL_MouvementStock.UpdateStockProduit(mouvement.IdProduit, produit.Stock - mouvement.Quantite);
+                            return Json(new { success = true, message = "Ajout Effectuez" });
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = "Ajout impossible car la quantité que vous voulez sortir est superieure à la quantité existante" });
+                        }
                     }
                 }
                 
@@ -103,7 +110,17 @@ namespace GestionProduitChimiques.Controllers
         {
             try
             {
-                BLL_MouvementStock.Delete(Id);
+                MouvementStock mouvement = BLL_MouvementStock.GetMouvement(Id);
+                Produit produit = BLL_Produit.GetProduit(mouvement.IdProduit);
+                if (produit.Perissable == 0)
+                {
+                    BLL_MouvementStock.UpdateStockProduit(produit.Id, produit.Stock - mouvement.Quantite);
+                    BLL_MouvementStock.Delete(Id);
+                }
+                else
+                {
+                    BLL_MouvementStock.Delete(Id);
+                }
                 return Json(new { success = true, message = "Suppression Effectuez" });
             }
             catch (Exception Ex)

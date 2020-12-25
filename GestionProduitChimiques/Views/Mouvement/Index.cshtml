@@ -117,8 +117,8 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="DateMvthh" class="MiseFormeDMvt">Date<font color="blue">*</font></label>
-                                        <input type="date" value="" class="form-control MiseFormeDMvt" name="DateMvt" id="DateMvthh" >
+                                        <label for="DateMvt" class="MiseFormeDMvt">Date<font color="blue">*</font></label>
+                                        <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control MiseFormeDMvt" name="DateMvt" id="DateMvt" >
                                     </div>
                                 </div>
                             </div>
@@ -151,7 +151,7 @@
                                     <div class="col-lg-4">
                                         <div class="form-group">
                                             <label for="dateperemtion" id="labpremtion">Date Peremption</label>
-                                            <input type="date" class="form-control" id="dateperemtion">
+                                            <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" id="dateperemtion">
                                         </div>
                                     </div>
                                 </fieldset>

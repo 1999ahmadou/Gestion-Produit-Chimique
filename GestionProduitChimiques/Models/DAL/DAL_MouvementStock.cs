@@ -164,6 +164,7 @@ namespace GestionProduitChimiques.Models.DAL
                 DataBaseAccessUtilities.NonQueryRequest(command);
             }
         }
+
         public static Lot VerifIfLotExiste(int EntityKey)
         {
             Lot lot = new Lot();
