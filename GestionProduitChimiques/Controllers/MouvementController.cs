@@ -38,66 +38,15 @@ namespace GestionProduitChimiques.Controllers
         {
             try
             {
-                Produit produit = BLL_MouvementStock.GetProduit(mouvement.IdProduit);
-                if (produit.Perissable == 1)//Gestion par Lot
+                Boolean reponse = BLL_MouvementStock.Add(mouvement, lot);
+                if (reponse)
                 {
-                    if(mouvement.TypeMvt== "Entrant")
-                    {
-                        Lot l = DAL_MouvementStock.VerifIfLotExiste(lot.IdProduit);
-                        if (l.IdProduit == lot.IdProduit && l.Concentration == lot.Concentration && l.Purete == lot.Purete && l.DatePeremption == lot.DatePeremption)
-                        {
-                            BLL_MouvementStock.Add(mouvement);
-                            BLL_MouvementStock.UpdateStockLot(l.Id, mouvement.Quantite + l.Stock);
-                            BLL_MouvementStock.UpdateStockProduit(mouvement.IdProduit, mouvement.Quantite + produit.Stock);
-                            return Json(new { success = true, message = "Ajout Effectuez" });
-                        }
-                        else
-                        {
-                            BLL_MouvementStock.Add(mouvement);
-                            BLL_Lot.Add(lot);
-                            BLL_MouvementStock.UpdateStockProduit(mouvement.IdProduit, mouvement.Quantite + produit.Stock);
-                            return Json(new { success = true, message = "Ajout Effectuez" });
-                        }
-                    }
-                    else
-                    {
-                        Lot l = DAL_MouvementStock.VerifIfLotExiste(lot.IdProduit);
-                        if(l.IdProduit==lot.IdProduit && l.Concentration==lot.Concentration && l.Purete==lot.Purete && l.DatePeremption == lot.DatePeremption)
-                        {
-                            BLL_MouvementStock.Add(mouvement);
-                            BLL_MouvementStock.UpdateStockProduit(mouvement.IdProduit, produit.Stock - mouvement.Quantite);
-                            BLL_MouvementStock.UpdateStockLot(l.Id, l.Stock - lot.Stock);
-                            return Json(new { success = true, message = "Ajout Effectuez" });
-                        }
-                        else
-                        {
-                            return Json(new { success = false, message = "Aucun lot ne correspond aux données saisies." });
-                        }
-                    }
+                    return Json(new { success = true, message = "Operation effectuez" });
                 }
-                else//Gestion Global
+                else
                 {
-                    if(mouvement.TypeMvt== "Entrant")
-                    {
-                        BLL_MouvementStock.Add(mouvement);
-                        BLL_MouvementStock.UpdateStockProduit(mouvement.IdProduit, mouvement.Quantite + produit.Stock);
-                        return Json(new { success = true, message = "Ajout Effectuez" });
-                    }
-                    else
-                    {
-                        if (produit.Stock >= mouvement.Quantite)
-                        {
-                            BLL_MouvementStock.Add(mouvement);
-                            BLL_MouvementStock.UpdateStockProduit(mouvement.IdProduit, produit.Stock - mouvement.Quantite);
-                            return Json(new { success = true, message = "Ajout Effectuez" });
-                        }
-                        else
-                        {
-                            return Json(new { success = false, message = "Ajout impossible car la quantité que vous voulez sortir est superieure à la quantité existante" });
-                        }
-                    }
+                    return Json(new { success = false, message = "Operation non effectuez" });
                 }
-                
             }
             catch (Exception Ex)
             {
@@ -155,7 +104,7 @@ namespace GestionProduitChimiques.Controllers
             try
             {
                 Produit produit= BLL_MouvementStock.GetProduit(Id);
-                return Json(new { success = true,type = produit.Perissable, etatphy=produit.EtatPhysique });
+                return Json(new { success = true,type = produit.Perissable, etatphy=produit.EtatPhysique,unitemesure=produit.UniteMesure });
             }
             catch (Exception Ex)
             {

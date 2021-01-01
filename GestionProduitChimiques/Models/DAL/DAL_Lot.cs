@@ -21,6 +21,7 @@ namespace GestionProduitChimiques.Models.DAL
             lot.Concentration = dataRow["Concentration"] == DBNull.Value ? null : (string)dataRow["Concentration"];
             lot.DatePeremption = dataRow["DatePeremption"] == DBNull.Value ? null : (DateTime?)dataRow["DatePeremption"];
             lot.Stock = (int)dataRow["Stock"];
+            lot.UniteMesure = dataRow["UniteMesure"] == DBNull.Value ? null : (string)dataRow["UniteMesure"];
             return lot;
         }
 
@@ -39,13 +40,14 @@ namespace GestionProduitChimiques.Models.DAL
         {
             using (MySqlConnection con = DbConnection.GetConnection())
             {
-                string StrSQL = "INSERT INTO Lot (IdProduit, Purete, Concentration, Stock, DatePeremption) VALUES (@IdProduit, @Purete, @Concentration, @Stock, @DatePeremption)";
+                string StrSQL = "INSERT INTO Lot (IdProduit, Purete, Concentration, Stock, DatePeremption,UniteMesure) VALUES (@IdProduit, @Purete, @Concentration, @Stock, @DatePeremption, @UniteMesure)";
                 MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@IdProduit", lot.IdProduit);
                 command.Parameters.AddWithValue("@Purete", lot.Purete ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Concentration", lot.Concentration ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@DatePeremption", lot.DatePeremption ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Stock", lot.Stock);
+                command.Parameters.AddWithValue("@UniteMesure", lot.UniteMesure);
                 DataBaseAccessUtilities.NonQueryRequest(command);
             }
         }
@@ -104,6 +106,39 @@ namespace GestionProduitChimiques.Models.DAL
                 dataTable = DataBaseAccessUtilities.SelectRequest(command);
             }
             return GetListFromDataTable(dataTable);
+        }
+
+        public static List<Lot> SelectAllOfSpecificProduit(int IdProduit)
+        {
+            DataTable dataTable;
+            using (MySqlConnection con = DbConnection.GetConnection())
+            {
+                con.Open();
+                string StrSQL = "SELECT * FROM Lot WHERE IdProduit=@IdProduit";
+                MySqlCommand command = new MySqlCommand(StrSQL, con);
+                command.Parameters.AddWithValue("@IdProduit", IdProduit);
+                dataTable = DataBaseAccessUtilities.SelectRequest(command);
+            }
+            return GetListFromDataTable(dataTable);
+        }
+
+        public static int ShowIfLotExistAndReturnId(Lot lot)
+        {
+            List<Lot> table = SelectAllOfSpecificProduit(lot.IdProduit);
+            int rep=-1;
+            foreach(Lot item in table)
+            {
+                if(lot.Concentration == item.Concentration && lot.DatePeremption == item.DatePeremption && lot.Purete == item.Purete)
+                {
+                    rep= item.Id;
+                    break;
+                }
+                else
+                {
+                    rep= -1;
+                }
+            }
+            return rep;
         }
 
         public static int VerifIfProduitExiste(int Id)

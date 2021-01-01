@@ -15,6 +15,7 @@ namespace GestionProduitChimiques.Models.Entities
         public string Purete { get; set; }
         public string Concentration { get; set; }
         public DateTime? DatePeremption { get; set; }
+        public String UniteMesure {get;set;}
         public int Stock { get; set; }
     }
 }

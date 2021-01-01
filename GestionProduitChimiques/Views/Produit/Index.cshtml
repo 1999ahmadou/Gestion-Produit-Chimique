@@ -39,6 +39,7 @@
                                 <th>Formule</th>
                                 <th>CAS</th>
                                 <th>Stock Globale</th>
+                                <th>Unite de Mesure</th>
                                 <th>Stock par lot</th>
                                 <th>Action</th>
                             </tr>
@@ -60,6 +61,9 @@
                                     <td>
                                         @item.Stock
                                     </td>
+                                    <td>
+                                        @item.UniteMesure
+                                    </td>
 
                                     @if (item.lots == null)
                                     {
@@ -78,7 +82,19 @@
                                         </td>
                                     }
 
-                                    <td>
+                                <td>
+                                    @if (item.Perissable == 1 && item.lots != null)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-2 tools action-buttons">
+                                                <a href="#" class="red" title="Delete Produit" id="idDeleteProduit" onclick="showModelDeleteProduit(@item.Id)">
+                                                    <i class="ace-icon fa fa-trash-o bigger-140"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
                                         <div class="row">
                                             <div class="col-md-2 tools action-buttons">
                                                 <a href="#" class="blue" title="Update Produit" id="idupdateProduit" onclick="showModelUpdateProduit(@item.Id)">
@@ -91,7 +107,8 @@
                                                 </a>
                                             </div>
                                         </div>
-                                    </td>
+                                    }
+                                </td>
                                 </tr>
                             }
                         </tbody>
@@ -147,7 +164,7 @@
                             <div class="row">
                                 <fieldset class="scheduler-border">
                                     <legend class="scheduler-border colorlegende">Proprieté du Produit</legend>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <div class="form-group">
                                             <label for="etatPhysique">Etat Physique</label>
                                             <select autocomplete="on" class="form-control" id="etatPhysique">
@@ -157,7 +174,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <div class="form-group">
                                             <label for="toxicite">Toxicite</label>
                                             <select class="form-control" id="toxicite">
@@ -166,12 +183,20 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Perissable</label>
                                             <select class="form-control" id="perrr">
                                                 <option value="1">Oui</option>
                                                 <option value="0">Non</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Unite de Mesure</label>
+                                            <select class="form-control" id="UniteMesure">
+                                                
                                             </select>
                                         </div>
                                     </div>
@@ -269,7 +294,7 @@
                         <div class="row">
                             <fieldset class="scheduler-border ">
                                 <legend class="scheduler-border colorlegende">Proprieté du Produit</legend>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label for="etatPhysique">Etat Physique</label>
                                         <select class="form-control" id="upetatPhysique">
@@ -279,7 +304,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label for="toxicite">Toxicite</label>
                                         <select class="form-control" id="uptoxicite">
@@ -288,12 +313,20 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Perissable</label>
                                         <select class="form-control" id="upperrr">
                                             <option value="1">Oui</option>
                                             <option value="0">Non</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label>Unite de Mesure</label>
+                                        <select class="form-control" id="upuniteMesure">
+
                                         </select>
                                     </div>
                                 </div>

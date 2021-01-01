@@ -22,6 +22,7 @@ namespace GestionProduitChimiques.Models.DAL
             produit.CAS = dataRow["CAS"] == DBNull.Value ? null : (string)dataRow["CAS"];
             produit.Toxicite = dataRow["Toxicite"] == DBNull.Value ? null : (string)dataRow["Toxicite"];
             produit.EtatPhysique = dataRow["EtatPhysique"] == DBNull.Value ? null : (string)dataRow["EtatPhysique"];
+            produit.UniteMesure = dataRow["UniteMesure"] == DBNull.Value ? null : (string)dataRow["UniteMesure"];
             produit.Perissable = Convert.ToByte(dataRow["Perissable"]);
             produit.TempMinStockage = (int)(dataRow["TempMinStockage"]);
             produit.TempMaxStockage = (int)(dataRow["TempMaxStockage"]);
@@ -48,14 +49,15 @@ namespace GestionProduitChimiques.Models.DAL
         {
             using (MySqlConnection con = DbConnection.GetConnection())
             {
-                string StrSQL = "INSERT INTO Produit (Nom, Formule, CAS,Toxicite,EtatPhysique,Perissable,TempMinStockage,TempMaxStockage,ConditionStockage,TypeGestion,StockMin,Stock)" +
-                    " VALUES (@Nom, @Formule, @CAS,@Toxicite,@EtatPhysique,@Perissable,@TempMinStockage,@TempMaxStockage,@ConditionStockage,@TypeGestion,@StockMin,@Stock)";
+                string StrSQL = "INSERT INTO Produit (Nom, Formule, CAS,Toxicite,EtatPhysique, UniteMesure,Perissable,TempMinStockage,TempMaxStockage,ConditionStockage,TypeGestion,StockMin,Stock)" +
+                    " VALUES (@Nom, @Formule, @CAS,@Toxicite,@EtatPhysique,@UniteMesure,@Perissable,@TempMinStockage,@TempMaxStockage,@ConditionStockage,@TypeGestion,@StockMin,@Stock)";
                 MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@Nom", produit.Nom ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Formule", produit.Formule ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@CAS", produit.CAS ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Toxicite", produit.Toxicite ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@EtatPhysique", produit.EtatPhysique ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@UniteMesure", produit.UniteMesure ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Perissable", produit.Perissable);
                 command.Parameters.AddWithValue("@TempMinStockage", produit.TempMinStockage);
                 command.Parameters.AddWithValue("@TempMaxStockage", produit.TempMaxStockage);
@@ -71,7 +73,7 @@ namespace GestionProduitChimiques.Models.DAL
         {
             using (MySqlConnection con = DbConnection.GetConnection())
             {
-                string StrSQL = "UPDATE Produit SET Nom= @Nom, Formule= @Formule, CAS= @CAS,Toxicite= @Toxicite,EtatPhysique= @EtatPhysique, Perissable= @Perissable,TempMinStockage= @TempMinStockage,TempMaxStockage= @TempMaxStockage, ConditionStockage= @ConditionStockage, TypeGestion= @TypeGestion, StockMin= @StockMin, Stock= @Stock WHERE Id = @CurId";
+                string StrSQL = "UPDATE Produit SET Nom= @Nom, Formule= @Formule, CAS= @CAS,Toxicite= @Toxicite,EtatPhysique= @EtatPhysique, UniteMesure=@UniteMesure, Perissable= @Perissable,TempMinStockage= @TempMinStockage,TempMaxStockage= @TempMaxStockage, ConditionStockage= @ConditionStockage, TypeGestion= @TypeGestion, StockMin= @StockMin, Stock= @Stock WHERE Id = @CurId";
                 MySqlCommand command = new MySqlCommand(StrSQL, con);
                 command.Parameters.AddWithValue("@CurId", id);
                 command.Parameters.AddWithValue("@Nom", produit.Nom ?? (object)DBNull.Value);
@@ -79,6 +81,7 @@ namespace GestionProduitChimiques.Models.DAL
                 command.Parameters.AddWithValue("@CAS", produit.CAS ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Toxicite", produit.Toxicite ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@EtatPhysique", produit.EtatPhysique ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue("@UniteMesure", produit.UniteMesure ?? (object)DBNull.Value);
                 command.Parameters.AddWithValue("@Perissable", produit.Perissable);
                 command.Parameters.AddWithValue("@TempMinStockage", produit.TempMinStockage);
                 command.Parameters.AddWithValue("@TempMaxStockage", produit.TempMaxStockage);

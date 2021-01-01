@@ -9,7 +9,6 @@ namespace GestionProduitChimiques.Models.Entities
     {
         public int Id { get; set; }
         public DateTime? DateMouvement { get; set; }
-        public int IdRespMvt { get; set; }
         public string TypeMvt { get; set; }
         public string Raison { get; set; }
         public int IdProduit { get; set; }
@@ -17,6 +16,5 @@ namespace GestionProduitChimiques.Models.Entities
         public string Observation { get; set; }
         public string UniteMesure { get; set; }
         public Produit produit { get; set; }
-        public Lot lot { get; set; }
     }
 }

@@ -1,7 +1,33 @@
 ﻿//Add Produit
+
+function SelectAddUniteMesureValue() {
+
+    let rep = $("#etatPhysique option:selected").val()
+
+    if (rep == "Solide") {
+        $("#UniteMesure option").remove();
+        $("#UniteMesure").append("<option value='mg'>mg</option><option value='g'>g</option><option value='kg'>kg</option> ")
+    }
+    else if (rep == "Liquide") {
+        $("#UniteMesure option").remove();
+        $("#UniteMesure").append("<option value='l'>l</option><option value='ml'>ml</option><option value='cl'>cl</option> ")
+    }
+    else {
+        $("#UniteMesure option").remove();
+        $("#UniteMesure").append("<option value='m3'>m3</option>");
+    }
+}
+
 function showModelAddProduit() {
+    SelectAddUniteMesureValue();
+
+    $("#etatPhysique").change(function () {
+        SelectAddUniteMesureValue();
+    })
+
     $("#ModelAddProduit").modal("show");
 }
+
 function hideModelAddProduit() {
     $("#ModelAddProduit").modal("hide");
 }
@@ -26,8 +52,13 @@ function AddProduit() {
         return rep;
     });
 
+    let selectUnitMes = $("#UniteMesure").change(function () {
+        let rep = $("#UniteMesure option:selected");
+        return rep;
+    });
+    alert(selectUnitMes);
+
     class Produit {
-        Reference;
         Nom;
         Formule;
         CAS;
@@ -40,21 +71,13 @@ function AddProduit() {
         TypeGestion;
         StockMin;
         Stock;
+        UniteMesure;
         constructor() {
-            this.Reference = $("#reference").val();
             this.Nom = $("#nom").val();
             this.Formule = $("#formule").val();
             this.CAS = $("#cas").val();
             this.Toxicite = selectToxi.val();
             this.EtatPhysique = selectEtatPhys.val();
-           /* var valeur;
-            if (document.getElementById('optionsRadiosInline1').checked) {
-                valeur = 1;
-            }
-
-            else {
-                valeur = 0;
-            }*/
             this.Perissable = selectPerri.val();
             this.TempMinStockage = $("#tempMinStockage").val();
             this.TempMaxStockage = $("#tempMaxStockage").val();
@@ -62,10 +85,10 @@ function AddProduit() {
             this.TypeGestion = selectTypeGes.val();
             this.StockMin = $("#stockMin").val();
             this.Stock = $("#stock").val();
+            this.UniteMesure = selectUnitMes.val();
         }
     }
-    //var p = this.Perissable = $("#perissable").val();
-    // alert(p);
+
     $.validator.unobtrusive.parse($("#form"));
     if ($(form).valid()) {
 
@@ -131,7 +154,34 @@ function AddProduit() {
 
 //Update Produit
 
+function SelectUpdateUniteMesureValue() {
+
+    let rep = $("#upetatPhysique option:selected").val()
+
+
+    if (rep == "Solide") {
+        $("#upuniteMesure option").remove();
+        $("#upuniteMesure").append("<option value='mg'>mg</option><option value='g'>g</option><option value='kg'>kg</option> ")
+    }
+    else if (rep == "Liquide") {
+        $("#upuniteMesure option").remove();
+        $("#upuniteMesure").append("<option value='l'>l</option><option value='ml'>ml</option><option value='cl'>cl</option> ")
+    }
+    else {
+        $("#upuniteMesure option").remove();
+        $("#upuniteMesure").append("<option value='m3'>m3</option>");
+    }
+}
+
+
 function showModelUpdateProduit(Id) {
+
+    SelectUpdateUniteMesureValue();
+
+    $("#upetatPhysique").change(function () {
+        SelectUpdateUniteMesureValue();
+    });
+
     if (Id != null && Id != undefined) {
         $.get("/Produit/GetProduit", { Id: Id }, function (result) {
             $("#upreference").val(result.reference);
@@ -141,6 +191,7 @@ function showModelUpdateProduit(Id) {
             $("#uptoxicite").val(result.toxicite);
             $("#upetatPhysique").val(result.etatPhysique);
             $("#upperrr").val(result.perissable);
+            $("#upuniteMesure").val(result.uniteMesure);
             $("#uptempMinStockage").val(result.tempMinStockage);
             $("#uptempMaxStockage").val(result.tempMaxStockage);
             $("#upconditionStockage").val(result.conditionStockage);
@@ -155,6 +206,8 @@ function showModelUpdateProduit(Id) {
         alertify.error("Cannot Show this Produit");
     }
 }
+
+
 function hideModelUpdateProduit() {
     $("#ModelUpdateProduit").modal("hide");
 }
@@ -190,6 +243,7 @@ function UpdateProduit() {
         CAS;
         Toxicite;
         EtatPhysique;
+        UniteMesure;
         Perissable;
         TempMinStockage;
         TempMaxStockage;
@@ -204,6 +258,7 @@ function UpdateProduit() {
             this.CAS = $("#upcas").val();
             this.Toxicite = selectToxi.val();
             this.EtatPhysique = selectEtatPhys.val();
+            this.UniteMesure = selectUnitMes.val();
             this.Perissable = selectPerri.val();
             this.TempMinStockage = $("#uptempMinStockage").val();
             this.TempMaxStockage = $("#uptempMaxStockage").val();
@@ -313,8 +368,9 @@ function showModelDetailProduit(Id) {
                 var Puret = result.message.lots[i].purete;
                 var datep = result.message.lots[i].datePeremption;
                 var Stok = result.message.lots[i].stock;
+                var uniteMesure = result.message.lots[i].uniteMesure;
                 //alert(Stok);
-                $("#ligne").append("<tr><td>" + Puret + "</td > <td> " + Conct + "</td > <td>" + datep.substr(0,10) + "</td > <td>" + Stok + "</td ></tr > ")
+                $("#ligne").append("<tr><td>" + Puret + "</td > <td> " + Conct + "</td > <td>" + datep.substr(0, 10) + "</td > <td>" + Stok + ' ' + uniteMesure+ "</td ></tr > ")
                 /*$("#puret").text(Puret);
                 $("#con").text(Conct);
                 $("#stk").text(Stok);
@@ -525,6 +581,7 @@ function showModelDetailLot(id) {
 //Add Mouvements
 
 
+
 function showModelAddMouvement() {
 
     let rep = $("#typprod option:selected").val()
@@ -551,7 +608,11 @@ function showModelAddMouvement() {
             $("#labconcent").hide();
         }
 
-        if (result.etatphy == "Solide") {
+        $("#unitemvt option").remove();
+        $("#unitemvt").append("<option value=" + result.unitemesure + ">" + result.unitemesure + "</option>")
+        alert(result.unitemesure);
+
+        /*if (result.etatphy == "Solide") {
             $("#unitemvt option").remove();
             $("#unitemvt").append("<option value='mg'>mg</option><option value='g'>g</option><option value='kg'>kg</option> ")
         }
@@ -562,7 +623,7 @@ function showModelAddMouvement() {
         if (result.etatphy == "Gazeux") {
             $("#unitemvt option").remove();
             $("#unitemvt").append("<option value='m3'>m3</option> ")
-        }
+        }*/
     });
 
     $("#ModelAddmouvement").modal("show");
@@ -591,7 +652,6 @@ function hideModelAddMouvement() {
 $("#typprod").change(function () {
     let rep = $("#typprod option:selected").val()
     $.post("/Mouvement/GetProduit", { Id: rep }, function (result) {
-
         if (result.type == 1) {
             $("#labPurete").show();
             $("#purete").show();
@@ -613,7 +673,9 @@ $("#typprod").change(function () {
             $("#labconcent").hide();
         }  
 
-        if (result.etatphy == "Solide") {
+        $("#unitemvt option").remove();
+        $("#unitemvt").append("<option value=" + result.unitemesure + ">" + result.unitemesure + "</option>")
+        /*if (result.etatphy == "Solide") {
             $("#unitemvt option").remove();
             $("#unitemvt").append("<option value='mg'>mg</option><option value='g'>g</option><option value='kg'>kg</option> ")
         }
@@ -624,7 +686,7 @@ $("#typprod").change(function () {
         if (result.etatphy == "Gazeux") {
             $("#unitemvt option").remove();
             $("#unitemvt").append("<option value='m3'>m3</option>")
-        }
+        }*/
     });
 });
 
@@ -652,6 +714,7 @@ function AddMouvement() {
     });
 
     class Mouvement {
+
         TypeMvt;
         Raison;
         IdProduit;
@@ -676,12 +739,14 @@ function AddMouvement() {
         Concentration;
         DatePeremption;
         Stock;
+        UniteMesure;
         constructor() {
             this.IdProduit = selectProd.val();
             this.Purete = $("#purete").val();
             this.Concentration = $("#concentration").val();
             this.DatePeremption = $("#dateperemtion").val();
             this.Stock = $("#quantite").val();
+            this.UniteMesure = selectUnitmvt.val();
         }
     }
 

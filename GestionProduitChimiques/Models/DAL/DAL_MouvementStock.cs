@@ -23,7 +23,7 @@ namespace GestionProduitChimiques.Models.DAL
             mouvement.Quantite = (int)dataRow["Quantite"];
             mouvement.Observation = dataRow["Observations"] == DBNull.Value ? null : (string)dataRow["Observations"];
             mouvement.UniteMesure = dataRow["UniteMesure"] == DBNull.Value ? null : (string)dataRow["UniteMesure"];
-            mouvement.produit = DAL_Produit.SelectById(mouvement.IdProduit);        
+            mouvement.produit = DAL_Produit.SelectById(mouvement.IdProduit);
             return mouvement;
         }
 
